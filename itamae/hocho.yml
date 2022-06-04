@@ -1,0 +1,23 @@
+inventory_providers:
+  file:
+    path: './hosts.yml'
+
+property_providers:
+  - add_default:
+      properties:
+        preferred_driver: mitamae
+
+driver_options:
+  mitamae:
+    mitamae_path: /usr/local/bin/mitamae
+    mitamae_options: ['--log-level', 'debug']
+    mitamae_prepare_script: |
+      mitamae_repo="itamae-kitchen/mitamae"
+      mitamae_os="linux"
+      mitamae_arch="x86_64"
+      mitamae_version="v1.12.9"
+
+      # TODO: Remove --no-check-certificate option.
+      wget --no-check-certificate -O /usr/local/bin/mitamae https://github.com/itamae-kitchen/mitamae/releases/download/${mitamae_version}/mitamae-${mitamae_arch}-${mitamae_os}
+      chmod +x /usr/local/bin/mitamae
+      /usr/local/bin/mitamae version

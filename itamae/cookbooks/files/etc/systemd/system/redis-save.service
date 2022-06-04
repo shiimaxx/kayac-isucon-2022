@@ -1,0 +1,11 @@
+[Unit]
+Description=Save at before shutdown of redis-server
+After=redis.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=true
+ExecStop=/usr/local/bin/redis-cli save
+
+[Install]
+WantedBy=multi-user.target

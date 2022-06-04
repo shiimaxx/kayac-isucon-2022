@@ -1,0 +1,16 @@
+[user]
+    name = shiimaxx
+    email = yoshima@fulldrive.jp
+[push]
+    default = current
+[color]
+    ui = true
+[alias]
+    co = checkout
+    ci = commit
+    st = status
+    br = branch
+    hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+[core]
+    excludesfile = ~/.gitignore
+	editor = vim -c \"set fenc=utf-8\"
