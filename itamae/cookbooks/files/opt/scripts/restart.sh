@@ -1,5 +1,3 @@
 #!/bin/bash
 
-systemctl restart mysql
-systemctl restart isucon.golang
-systemctl restart nginx
+cd /home/isucon/webapp; docker-compose down; docker-compose up -d

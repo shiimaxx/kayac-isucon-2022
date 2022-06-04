@@ -6,6 +6,7 @@ services:
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d
       - ./public:/public
+      - ./nginx/logs:/var/log/nginx
     ports:
       - "80:80"
     links:
