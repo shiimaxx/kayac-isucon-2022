@@ -1770,6 +1770,38 @@ func initializeHandler(c echo.Context) error {
 		return errorResponse(c, 500, "internal server error")
 	}
 
+	// if _, err := conn.ExecContext(
+	// 	ctx,
+	// 	"ALTER TABLE playlist ADD INDEX idx_ulid(ulid)",
+	// ); err != nil {
+	// 	c.Logger().Errorf("error: initialize %s", err)
+	// 	return errorResponse(c, 500, "internal server error")
+	// }
+
+	// if _, err := conn.ExecContext(
+	// 	ctx,
+	// 	"ALTER TABLE song ADD INDEX idx_ulid(ulid)",
+	// ); err != nil {
+	// 	c.Logger().Errorf("error: initialize %s", err)
+	// 	return errorResponse(c, 500, "internal server error")
+	// }
+
+	// if _, err := conn.ExecContext(
+	// 	ctx,
+	// 	"ALTER TABLE playlist_favorite ADD INDEX idx_favorite_user_account_created_at_desc(favorite_user_account ASC, created_at DESC)",
+	// ); err != nil {
+	// 	c.Logger().Errorf("error: initialize %s", err)
+	// 	return errorResponse(c, 500, "internal server error")
+	// }
+
+	// if _, err := conn.ExecContext(
+	// 	ctx,
+	// 	"ALTER TABLE playlist ADD INDEX idx_is_public_created_at_desc(is_public ASC, created_at DESC)",
+	// ); err != nil {
+	// 	c.Logger().Errorf("error: initialize %s", err)
+	// 	return errorResponse(c, 500, "internal server error")
+	// }
+
 	body := BasicResponse{
 		Result: true,
 		Status: 200,
