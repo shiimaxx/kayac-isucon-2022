@@ -54,6 +54,7 @@ func connectDB() (*sqlx.DB, error) {
 	config.Passwd = getEnv("ISUCON_DB_PASSWORD", "isucon")
 	config.DBName = getEnv("ISUCON_DB_NAME", "isucon_listen80")
 	config.ParseTime = true
+	config.InterpolateParams = true
 
 	dsn := config.FormatDSN()
 	return sqlx.Open("mysql", dsn)
@@ -113,7 +114,8 @@ func main() {
 		e.Logger.Fatalf("failed to connect db: %v", err)
 		return
 	}
-	db.SetMaxOpenConns(10)
+	db.SetMaxOpenConns(150)
+	db.SetMaxIdleConns(150)
 	defer db.Close()
 
 	sessionStore, err = mysqlstore.NewMySQLStoreFromConnection(db.DB, "sessions_golang", "/", 86400, []byte("powawa"))
