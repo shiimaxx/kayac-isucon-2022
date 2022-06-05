@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"os"
 	"regexp"
+	"strconv"
 	"time"
 	"unicode/utf8"
 
@@ -462,16 +463,44 @@ func getPopularPlaylistSummaries(ctx context.Context, db connOrTx, userAccount s
 		PlaylistID    int `db:"playlist_id"`
 		FavoriteCount int `db:"favorite_count"`
 	}
-	if err := db.SelectContext(
-		ctx,
-		&popular,
-		`SELECT playlist_id, count(*) AS favorite_count FROM playlist_favorite GROUP BY playlist_id ORDER BY count(*) DESC`,
-	); err != nil {
-		return nil, fmt.Errorf(
-			"error Select playlist_favorite: %w",
-			err,
-		)
+
+	redisConn := pool.Get()
+	ss, err := redis.Strings(redisConn.Do("ZREVRANGE", "fav", 0, -1, "WITHSCORES"))
+	if err != nil {
+		return nil, fmt.Errorf("redis failed: %w", err)
 	}
+
+	var id int
+	for i, s := range ss {
+		if i%2 == 0 {
+			is, err := strconv.Atoi(s)
+			if err != nil {
+				return nil, err
+			}
+			id = is
+			continue
+		}
+		is2, err := strconv.Atoi(s)
+		if err != nil {
+			return nil, err
+		}
+
+		popular = append(popular, struct {
+			PlaylistID    int `db:"playlist_id"`
+			FavoriteCount int `db:"favorite_count"`
+		}{id, is2})
+	}
+
+	// if err := db.SelectContext(
+	// 	ctx,
+	// 	&popular,
+	// 	`SELECT playlist_id, count(*) AS favorite_count FROM playlist_favorite GROUP BY playlist_id ORDER BY count(*) DESC`,
+	// ); err != nil {
+	// 	return nil, fmt.Errorf(
+	// 		"error Select playlist_favorite: %w",
+	// 		err,
+	// 	)
+	// }
 
 	if len(popular) == 0 {
 		return nil, nil
