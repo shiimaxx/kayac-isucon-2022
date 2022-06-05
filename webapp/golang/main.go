@@ -457,33 +457,20 @@ func getRecentPlaylistSummaries(ctx context.Context, db connOrTx, userAccount st
 	return playlists, nil
 }
 
-type Popular struct {
-	PlaylistID    int `db:"playlist_id"`
-	FavoriteCount int `db:"favorite_count"`
-}
-
-var popularCache = PopularCache{
-	item:     nil,
-	disabled: false,
-}
-
 func getPopularPlaylistSummaries(ctx context.Context, db connOrTx, userAccount string) ([]Playlist, error) {
-	var popular []Popular
-
-	if cache := popularCache.Get(); cache != nil {
-		popular = cache
-	} else {
-		if err := db.SelectContext(
-			ctx,
-			&popular,
-			`SELECT playlist_id, count(*) AS favorite_count FROM playlist_favorite AS pf INNER JOIN playlist AS p FORCE INDEX (is_public_user_account) ON pf.playlist_id = p.id INNER JOIN user AS u ON p.user_account = u.account WHERE p.is_public = true AND u.is_ban = false GROUP BY playlist_id ORDER BY count(*) DESC LIMIT 100`,
-		); err != nil {
-			return nil, fmt.Errorf(
-				"error Select playlist_favorite: %w",
-				err,
-			)
-		}
-		popularCache.Set(popular)
+	var popular []struct {
+		PlaylistID    int `db:"playlist_id"`
+		FavoriteCount int `db:"favorite_count"`
+	}
+	if err := db.SelectContext(
+		ctx,
+		&popular,
+		`SELECT playlist_id, count(*) AS favorite_count FROM playlist_favorite GROUP BY playlist_id ORDER BY count(*) DESC`,
+	); err != nil {
+		return nil, fmt.Errorf(
+			"error Select playlist_favorite: %w",
+			err,
+		)
 	}
 
 	if len(popular) == 0 {
@@ -1650,7 +1637,6 @@ func apiPlaylistFavoriteHandler(c echo.Context) error {
 			return errorResponse(c, 500, "internal server error")
 		}
 	}
-	popularCache.Set(nil)
 
 	playlistDetail, err := getPlaylistDetailByPlaylistULID(ctx, conn, playlist.ULID, &userAccount)
 	if err != nil {
