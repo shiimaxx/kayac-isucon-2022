@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"os"
 	"regexp"
+	"strconv"
 	"time"
 	"unicode/utf8"
 
@@ -462,48 +463,76 @@ func getPopularPlaylistSummaries(ctx context.Context, db connOrTx, userAccount s
 		PlaylistID    int `db:"playlist_id"`
 		FavoriteCount int `db:"favorite_count"`
 	}
-	if err := db.SelectContext(
-		ctx,
-		&popular,
-		`SELECT playlist_id, count(*) AS favorite_count FROM playlist_favorite GROUP BY playlist_id ORDER BY count(*) DESC`,
-	); err != nil {
-		return nil, fmt.Errorf(
-			"error Select playlist_favorite: %w",
-			err,
-		)
+
+	redisConn := pool.Get()
+	ss, err := redis.Strings(redisConn.Do("ZREVRANGE", "fav", 0, -1, "WITHSCORES"))
+	if err != nil {
+		return nil, fmt.Errorf("redis failed: %w", err)
 	}
+
+	var id int
+	for i, s := range ss {
+		if i%2 == 0 {
+			is, err := strconv.Atoi(s)
+			if err != nil {
+				return nil, err
+			}
+			id = is
+			continue
+		}
+		is2, err := strconv.Atoi(s)
+		if err != nil {
+			return nil, err
+		}
+
+		popular = append(popular, struct {
+			PlaylistID    int `db:"playlist_id"`
+			FavoriteCount int `db:"favorite_count"`
+		}{id, is2})
+	}
+
+	// if err := db.SelectContext(
+	// 	ctx,
+	// 	&popular,
+	// 	`SELECT playlist_id, count(*) AS favorite_count FROM playlist_favorite GROUP BY playlist_id ORDER BY count(*) DESC`,
+	// ); err != nil {
+	// 	return nil, fmt.Errorf(
+	// 		"error Select playlist_favorite: %w",
+	// 		err,
+	// 	)
+	// }
 
 	if len(popular) == 0 {
 		return nil, nil
 	}
 	playlists := make([]Playlist, 0, len(popular))
 	for _, p := range popular {
-		playlist, err := getPlaylistByID(ctx, db, p.PlaylistID)
-		if err != nil {
-			return nil, fmt.Errorf("error getPlaylistByID: %w", err)
+		var result struct {
+			PlaylistRow
+			UserRow   `db:"user"`
+			SongCount int `db:"song_count"`
 		}
+		if err := db.GetContext(ctx, &result, "SELECT p.*, u.display_name AS 'user.display_name', u.account AS `user.account`, u.is_ban AS `user.is_ban`, COUNT(ps.playlist_id) AS song_count FROM playlist AS p LEFT JOIN user AS u ON p.user_account = u.account LEFT JOIN playlist_song AS ps ON p.id = ps.playlist_id WHERE `id` = ?", p.PlaylistID); err != nil {
+			if err == sql.ErrNoRows {
+				return nil, nil
+			}
+			return nil, fmt.Errorf("error Get playlist by id=%d: %w", p.PlaylistID, err)
+		}
+
+		playlist := &result.PlaylistRow
 		// 非公開プレイリストは除外
 		if playlist == nil || !playlist.IsPublic {
 			continue
 		}
 
-		user, err := getUserByAccount(ctx, db, playlist.UserAccount)
-		if err != nil {
-			return nil, fmt.Errorf("error getUserByAccount: %w", err)
-		}
+		user := &result.UserRow
 		// banされていたら除外
 		if user == nil || user.IsBan {
 			continue
 		}
 
-		songCount, err := getSongsCountByPlaylistID(ctx, db, playlist.ID)
-		if err != nil {
-			return nil, fmt.Errorf("error getSongsCountByPlaylistID: %w", err)
-		}
-		favoriteCount, err := getFavoritesCountByPlaylistID(ctx, db, playlist.ID)
-		if err != nil {
-			return nil, fmt.Errorf("error getFavoritesCountByPlaylistID: %w", err)
-		}
+		songCount := result.SongCount
+		favoriteCount := p.FavoriteCount
 
 		var isFavorited bool
 		if userAccount != anonUserAccount {
@@ -1607,6 +1636,9 @@ func apiPlaylistFavoriteHandler(c echo.Context) error {
 		}
 	}
 
+	redisConn := pool.Get()
+	defer redisConn.Close()
+
 	if isFavorited {
 		// insert
 		createdTimestamp := time.Now()
@@ -1622,6 +1654,7 @@ func apiPlaylistFavoriteHandler(c echo.Context) error {
 				c.Logger().Errorf("error insertPlaylistFavorite: %s", err)
 				return errorResponse(c, 500, "internal server error")
 			}
+			redisConn.Send("ZINCRBY", "fab", 1, playlist.ID)
 		}
 	} else {
 		// delete
@@ -1636,6 +1669,7 @@ func apiPlaylistFavoriteHandler(c echo.Context) error {
 			)
 			return errorResponse(c, 500, "internal server error")
 		}
+		redisConn.Send("ZINCRBY", "fab", -1, playlist.ID)
 	}
 
 	playlistDetail, err := getPlaylistDetailByPlaylistULID(ctx, conn, playlist.ULID, &userAccount)
@@ -1756,6 +1790,46 @@ func initializeDB(ctx context.Context, queryArgs [][]interface{}) error {
 	return nil
 }
 
+func initializeRedis(ctx context.Context) error {
+	conn, err := db.Conn(ctx)
+	if err != nil {
+		return err
+	}
+	defer conn.Close()
+
+	redisConn := pool.Get()
+	defer redisConn.Close()
+
+	if err := redisConn.Send("DEL", "fav"); err != nil {
+		return err
+	}
+
+	var popular []struct {
+		PlaylistID    int `db:"playlist_id"`
+		FavoriteCount int `db:"favorite_count"`
+	}
+	if err := db.Select(
+		&popular,
+		`SELECT playlist_id, count(*) AS favorite_count FROM playlist_favorite GROUP BY playlist_id ORDER BY count(*) DESC`,
+	); err != nil {
+		return fmt.Errorf(
+			"error Select playlist_favorite: %w",
+			err,
+		)
+	}
+
+	if len(popular) == 0 {
+		return nil
+	}
+	for _, p := range popular {
+		if err := redisConn.Send("ZADD", "fav", p.FavoriteCount, p.PlaylistID); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
 // 競技に必要なAPI
 // DBの初期化処理
 // auto generated dump data 20220424_0851 size prod
@@ -1785,6 +1859,11 @@ func initializeHandler(c echo.Context) error {
 		return errorResponse(c, 500, "internal server error")
 	}
 	if _, err := redisConn.Do("PING"); err != nil {
+		c.Logger().Errorf("error: initialize %s", err)
+		return errorResponse(c, 500, "internal server error")
+	}
+
+	if err := initializeRedis(ctx); err != nil {
 		c.Logger().Errorf("error: initialize %s", err)
 		return errorResponse(c, 500, "internal server error")
 	}
