@@ -478,32 +478,32 @@ func getPopularPlaylistSummaries(ctx context.Context, db connOrTx, userAccount s
 	}
 	playlists := make([]Playlist, 0, len(popular))
 	for _, p := range popular {
-		playlist, err := getPlaylistByID(ctx, db, p.PlaylistID)
-		if err != nil {
-			return nil, fmt.Errorf("error getPlaylistByID: %w", err)
+		var result struct {
+			PlaylistRow
+			UserRow   `db:"user"`
+			SongCount int `db:"song_count"`
 		}
+		if err := db.GetContext(ctx, &result, "SELECT p.*, u.display_name AS 'user.display_name', u.account AS `user.account`, u.is_ban AS `user.is_ban`, COUNT(ps.playlist_id) AS song_count FROM playlist AS p LEFT JOIN user AS u ON p.user_account = u.account LEFT JOIN playlist_song AS ps ON p.id = ps.playlist_id WHERE `id` = ?", p.PlaylistID); err != nil {
+			if err == sql.ErrNoRows {
+				return nil, nil
+			}
+			return nil, fmt.Errorf("error Get playlist by id=%d: %w", p.PlaylistID, err)
+		}
+
+		playlist := &result.PlaylistRow
 		// 非公開プレイリストは除外
 		if playlist == nil || !playlist.IsPublic {
 			continue
 		}
 
-		user, err := getUserByAccount(ctx, db, playlist.UserAccount)
-		if err != nil {
-			return nil, fmt.Errorf("error getUserByAccount: %w", err)
-		}
+		user := &result.UserRow
 		// banされていたら除外
 		if user == nil || user.IsBan {
 			continue
 		}
 
-		songCount, err := getSongsCountByPlaylistID(ctx, db, playlist.ID)
-		if err != nil {
-			return nil, fmt.Errorf("error getSongsCountByPlaylistID: %w", err)
-		}
-		favoriteCount, err := getFavoritesCountByPlaylistID(ctx, db, playlist.ID)
-		if err != nil {
-			return nil, fmt.Errorf("error getFavoritesCountByPlaylistID: %w", err)
-		}
+		songCount := result.SongCount
+		favoriteCount := p.FavoriteCount
 
 		var isFavorited bool
 		if userAccount != anonUserAccount {
