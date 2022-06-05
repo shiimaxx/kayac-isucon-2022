@@ -385,31 +385,30 @@ func getSongsCountByPlaylistID(ctx context.Context, db connOrTx, playlistID int)
 }
 
 func getRecentPlaylistSummaries(ctx context.Context, db connOrTx, userAccount string) ([]Playlist, error) {
-	var allPlaylists []PlaylistRow
+	type result struct {
+		PlaylistRow
+		UserRow `db:"user"`
+	}
+	var results []result
 	if err := db.SelectContext(
 		ctx,
-		&allPlaylists,
-		"SELECT * FROM playlist where is_public = ? ORDER BY created_at DESC",
+		&results,
+		"SELECT p.*, u.account AS 'user.account', u.display_name AS 'user.display_name', u.password_hash AS 'user.password_hash', u.is_ban AS 'user.is_ban', u.created_at AS 'user.created_at', u.last_logined_at AS 'user.last_logined_at' FROM playlist as p INNER JOIN user as u on p.user_account = u.account where p.is_public = ? and u.is_ban = ? ORDER BY p.created_at DESC LIMIT 100",
 		true,
+		false,
 	); err != nil {
 		return nil, fmt.Errorf(
 			"error Select playlist by is_public=true: %w",
 			err,
 		)
 	}
-	if len(allPlaylists) == 0 {
+	if len(results) == 0 {
 		return nil, nil
 	}
 
-	playlists := make([]Playlist, 0, len(allPlaylists))
-	for _, playlist := range allPlaylists {
-		user, err := getUserByAccount(ctx, db, playlist.UserAccount)
-		if err != nil {
-			return nil, fmt.Errorf("error getUserByAccount: %w", err)
-		}
-		if user == nil || user.IsBan {
-			continue
-		}
+	playlists := make([]Playlist, 0, len(results))
+	for _, playlist := range results {
+		user := playlist.UserRow
 
 		songCount, err := getSongsCountByPlaylistID(ctx, db, playlist.ID)
 		if err != nil {
@@ -438,12 +437,9 @@ func getRecentPlaylistSummaries(ctx context.Context, db connOrTx, userAccount st
 			FavoriteCount:   favoriteCount,
 			IsFavorited:     isFavorited,
 			IsPublic:        playlist.IsPublic,
-			CreatedAt:       playlist.CreatedAt,
+			CreatedAt:       playlist.PlaylistRow.CreatedAt,
 			UpdatedAt:       playlist.UpdatedAt,
 		})
-		if len(playlists) >= 100 {
-			break
-		}
 	}
 	return playlists, nil
 }
