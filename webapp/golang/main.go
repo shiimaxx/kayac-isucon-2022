@@ -462,29 +462,10 @@ func getPopularPlaylistSummaries(ctx context.Context, db connOrTx, userAccount s
 		PlaylistID    int `db:"playlist_id"`
 		FavoriteCount int `db:"favorite_count"`
 	}
-
-	// redisConn := pool.Get()
-	// ss, err := redis.Strings(redisConn.Do("ZREVRANGE", "fav", 0, -1))
-	// if err != nil {
-	// 	return nil, fmt.Errorf("redis failed: %w", err)
-	// }
-
-	// for _, s := range ss {
-	// 	is, err := strconv.Atoi(s)
-	// 	if err != nil {
-	// 		return nil, err
-	// 	}
-
-	// 	popular = append(popular, struct {
-	// 		PlaylistID    int `db:"playlist_id"`
-	// 		FavoriteCount int `db:"favorite_count"`
-	// 	}{is, 0})
-	// }
-
 	if err := db.SelectContext(
 		ctx,
 		&popular,
-		`SELECT playlist_id, count(*) AS favorite_count FROM playlist_favorite AS pf INNER JOIN playlist AS p FORCE INDEX (user_account) ON pf.playlist_id = p.id INNER JOIN user AS u FORCE INDEX (is_ban) ON p.user_account = u.account WHERE p.is_public = true AND u.is_ban = false GROUP BY playlist_id ORDER BY count(*) DESC LIMIT 100`,
+		`SELECT playlist_id, count(*) AS favorite_count FROM playlist_favorite GROUP BY playlist_id ORDER BY count(*) DESC`,
 	); err != nil {
 		return nil, fmt.Errorf(
 			"error Select playlist_favorite: %w",
@@ -1836,7 +1817,6 @@ func initializeHandler(c echo.Context) error {
 		// {"ALTER TABLE song ADD INDEX ulid(ulid)"},
 		// {"ALTER TABLE playlist_favorite ADD INDEX favorite_user_account_created_at_desc(favorite_user_account ASC, created_at DESC)"},
 		// {"ALTER TABLE playlist ADD INDEX idx_is_public_created_at_desc(is_public ASC, created_at DESC)"},
-		// {"ALTER TABLE playlist ADD INDEX user_account(user_account)"},
 	}
 	if err := initializeDB(ctx, initializeQueries); err != nil {
 		c.Logger().Errorf("error: initialize %s", err)
