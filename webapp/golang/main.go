@@ -1722,7 +1722,7 @@ func isAdminUser(account string) bool {
 	return account == "adminuser"
 }
 
-func initializeDB(ctx context.Context, queryArgs [][]string) error {
+func initializeDB(ctx context.Context, queryArgs [][]interface{}) error {
 	conn, err := db.Connx(ctx)
 	if err != nil {
 		return err
@@ -1730,11 +1730,8 @@ func initializeDB(ctx context.Context, queryArgs [][]string) error {
 	defer conn.Close()
 
 	for _, qa := range queryArgs {
-		query := qa[0]
-		var args []interface{}
-		for a := range qa[1:] {
-			args = append(args, interface{}(a))
-		}
+		query := qa[0].(string)
+		args := qa[1:]
 		var err error
 		if len(args) > 0 {
 			_, err = conn.ExecContext(ctx, query, args...)
@@ -1755,48 +1752,7 @@ func initializeHandler(c echo.Context) error {
 	lastCreatedAt := "2022-05-13 09:00:00.000"
 	ctx := c.Request().Context()
 
-	// conn, err := db.Connx(ctx)
-	// if err != nil {
-	// 	return errorResponse(c, 500, "internal server error")
-	// }
-	// defer conn.Close()
-
-	// if _, err := conn.ExecContext(
-	// 	ctx,
-	// 	"DELETE FROM user WHERE ? < `created_at`",
-	// 	lastCreatedAt,
-	// ); err != nil {
-	// 	c.Logger().Errorf("error: initialize %s", err)
-	// 	return errorResponse(c, 500, "internal server error")
-	// }
-
-	// if _, err := conn.ExecContext(
-	// 	ctx,
-	// 	"DELETE FROM playlist WHERE ? < created_at OR user_account NOT IN (SELECT account FROM user)",
-	// 	lastCreatedAt,
-	// ); err != nil {
-	// 	c.Logger().Errorf("error: initialize %s", err)
-	// 	return errorResponse(c, 500, "internal server error")
-	// }
-
-	// if _, err := conn.ExecContext(
-	// 	ctx,
-	// 	"DELETE FROM playlist_song WHERE playlist_id NOT IN (SELECT id FROM playlist)",
-	// ); err != nil {
-	// 	c.Logger().Errorf("error: initialize %s", err)
-	// 	return errorResponse(c, 500, "internal server error")
-	// }
-
-	// if _, err := conn.ExecContext(
-	// 	ctx,
-	// 	"DELETE FROM playlist_favorite WHERE playlist_id NOT IN (SELECT id FROM playlist) OR ? < created_at",
-	// 	lastCreatedAt,
-	// ); err != nil {
-	// 	c.Logger().Errorf("error: initialize %s", err)
-	// 	return errorResponse(c, 500, "internal server error")
-	// }
-
-	initializeQueries := [][]string{
+	initializeQueries := [][]interface{}{
 		{"DELETE FROM user WHERE ? < `created_at`", lastCreatedAt},
 		{"DELETE FROM playlist WHERE ? < created_at OR user_account NOT IN (SELECT account FROM user)", lastCreatedAt},
 		{"DELETE FROM playlist_song WHERE playlist_id NOT IN (SELECT id FROM playlist)"},
