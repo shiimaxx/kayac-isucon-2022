@@ -1607,6 +1607,9 @@ func apiPlaylistFavoriteHandler(c echo.Context) error {
 		}
 	}
 
+	redisConn := pool.Get()
+	defer redisConn.Close()
+
 	if isFavorited {
 		// insert
 		createdTimestamp := time.Now()
@@ -1622,6 +1625,7 @@ func apiPlaylistFavoriteHandler(c echo.Context) error {
 				c.Logger().Errorf("error insertPlaylistFavorite: %s", err)
 				return errorResponse(c, 500, "internal server error")
 			}
+			redisConn.Send("ZINCRBY", "fab", 1, playlist.ID)
 		}
 	} else {
 		// delete
@@ -1636,6 +1640,7 @@ func apiPlaylistFavoriteHandler(c echo.Context) error {
 			)
 			return errorResponse(c, 500, "internal server error")
 		}
+		redisConn.Send("ZINCRBY", "fab", -1, playlist.ID)
 	}
 
 	playlistDetail, err := getPlaylistDetailByPlaylistULID(ctx, conn, playlist.ULID, &userAccount)
@@ -1756,6 +1761,46 @@ func initializeDB(ctx context.Context, queryArgs [][]interface{}) error {
 	return nil
 }
 
+func initializeRedis(ctx context.Context) error {
+	conn, err := db.Conn(ctx)
+	if err != nil {
+		return err
+	}
+	defer conn.Close()
+
+	redisConn := pool.Get()
+	defer redisConn.Close()
+
+	if err := redisConn.Send("DEL", "fav"); err != nil {
+		return err
+	}
+
+	var popular []struct {
+		PlaylistID    int `db:"playlist_id"`
+		FavoriteCount int `db:"favorite_count"`
+	}
+	if err := db.Select(
+		&popular,
+		`SELECT playlist_id, count(*) AS favorite_count FROM playlist_favorite GROUP BY playlist_id ORDER BY count(*) DESC`,
+	); err != nil {
+		return fmt.Errorf(
+			"error Select playlist_favorite: %w",
+			err,
+		)
+	}
+
+	if len(popular) == 0 {
+		return nil
+	}
+	for _, p := range popular {
+		if err := redisConn.Send("ZADD", "fav", p.FavoriteCount, p.PlaylistID); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
 // 競技に必要なAPI
 // DBの初期化処理
 // auto generated dump data 20220424_0851 size prod
@@ -1785,6 +1830,11 @@ func initializeHandler(c echo.Context) error {
 		return errorResponse(c, 500, "internal server error")
 	}
 	if _, err := redisConn.Do("PING"); err != nil {
+		c.Logger().Errorf("error: initialize %s", err)
+		return errorResponse(c, 500, "internal server error")
+	}
+
+	if err := initializeRedis(ctx); err != nil {
 		c.Logger().Errorf("error: initialize %s", err)
 		return errorResponse(c, 500, "internal server error")
 	}
