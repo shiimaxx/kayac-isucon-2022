@@ -24,6 +24,7 @@ services:
       ISUCON_DB_USER: isucon
       ISUCON_DB_PASSWORD: isucon
       ISUCON_DB_NAME: isucon_listen80
+      REDIS_ADDR: "redis://10.0.0.56:6379"
     links:
       - mysql
     volumes:

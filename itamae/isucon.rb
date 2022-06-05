@@ -1,7 +1,7 @@
 include_recipe "./cookbooks/base.rb"
 include_recipe "./cookbooks/users.rb"
 include_recipe "./cookbooks/kernel.rb"
-#include_recipe "./cookbooks/redis.rb"
+include_recipe "./cookbooks/redis.rb"
 include_recipe "./cookbooks/sqldef.rb"
 include_recipe "./cookbooks/kataribe.rb"
 include_recipe "./cookbooks/percona-toolkit.rb"

@@ -14,6 +14,7 @@ import (
 	"unicode/utf8"
 
 	"github.com/go-sql-driver/mysql"
+	"github.com/gomodule/redigo/redis"
 	"github.com/gorilla/sessions"
 	"github.com/jmoiron/sqlx"
 	"github.com/labstack/echo/v4"
@@ -32,6 +33,7 @@ const (
 
 var (
 	db           *sqlx.DB
+	pool         *redis.Pool
 	sessionStore sessions.Store
 	tr           = &renderer{templates: template.Must(template.ParseGlob("views/*.html"))}
 	// for use ULID
@@ -58,6 +60,15 @@ func connectDB() (*sqlx.DB, error) {
 
 	dsn := config.FormatDSN()
 	return sqlx.Open("mysql", dsn)
+}
+
+func connectRedis() *redis.Pool {
+	addr := getEnv("REDIS_ADDR", "127.0.0.1:6379")
+	return &redis.Pool{
+		Dial: func() (redis.Conn, error) {
+			return redis.DialURL(addr)
+		},
+	}
 }
 
 type renderer struct {
@@ -123,6 +134,8 @@ func main() {
 		e.Logger.Fatalf("failed to initialize session store: %v", err)
 		return
 	}
+
+	pool = connectRedis()
 
 	port := getEnv("SERVER_APP_PORT", "3000")
 	e.Logger.Infof("starting listen80 server on : %s ...", port)
@@ -1761,6 +1774,17 @@ func initializeHandler(c echo.Context) error {
 		// {"ALTER TABLE playlist ADD INDEX idx_is_public_created_at_desc(is_public ASC, created_at DESC)"},
 	}
 	if err := initializeDB(ctx, initializeQueries); err != nil {
+		c.Logger().Errorf("error: initialize %s", err)
+		return errorResponse(c, 500, "internal server error")
+	}
+
+	redisConn := pool.Get()
+	defer redisConn.Close()
+	if err := redisConn.Flush(); err != nil {
+		c.Logger().Errorf("error: initialize %s", err)
+		return errorResponse(c, 500, "internal server error")
+	}
+	if _, err := redisConn.Do("PING"); err != nil {
 		c.Logger().Errorf("error: initialize %s", err)
 		return errorResponse(c, 500, "internal server error")
 	}
