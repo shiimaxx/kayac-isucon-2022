@@ -715,11 +715,16 @@ func getPlaylistDetailByPlaylistULID(ctx context.Context, db connOrTx, playlistU
 		}
 	}
 
-	var resPlaylistSongs []PlaylistSongRow
+	type result struct {
+		SongRow   `db:"song"`
+		ArtistRow `db:"artist"`
+	}
+	var results []result
+
 	if err := db.SelectContext(
 		ctx,
-		&resPlaylistSongs,
-		"SELECT * FROM playlist_song WHERE playlist_id = ?",
+		&results,
+		"SELECT s.ulid `song.ulid`, s.title `song.title`, a.name `artist.name`, s.album `song.album`, s.track_number `song.track_number`, s.is_public `song.is_public` FROM playlist_song ps LEFT JOIN song s ON ps.song_id = s.id LEFT JOIN artist a ON s.artist_id = a.id WHERE playlist_id = ?",
 		playlist.ID,
 	); err != nil {
 		return nil, fmt.Errorf(
@@ -728,35 +733,15 @@ func getPlaylistDetailByPlaylistULID(ctx context.Context, db connOrTx, playlistU
 		)
 	}
 
-	songs := make([]Song, 0, len(resPlaylistSongs))
-	for _, row := range resPlaylistSongs {
-		var song SongRow
-		if err := db.GetContext(
-			ctx,
-			&song,
-			"SELECT * FROM song WHERE id = ?",
-			row.SongID,
-		); err != nil {
-			return nil, fmt.Errorf("error Get song by id=%d: %w", row.SongID, err)
-		}
-
-		var artist ArtistRow
-		if err := db.GetContext(
-			ctx,
-			&artist,
-			"SELECT * FROM artist WHERE id = ?",
-			song.ArtistID,
-		); err != nil {
-			return nil, fmt.Errorf("error Get artist by id=%d: %w", song.ArtistID, err)
-		}
-
+	songs := make([]Song, 0, len(results))
+	for _, r := range results {
 		songs = append(songs, Song{
-			ULID:        song.ULID,
-			Title:       song.Title,
-			Artist:      artist.Name,
-			Album:       song.Album,
-			TrackNumber: song.TrackNumber,
-			IsPublic:    song.IsPublic,
+			ULID:        r.SongRow.ULID,
+			Title:       r.SongRow.Title,
+			Artist:      r.ArtistRow.Name,
+			Album:       r.SongRow.Album,
+			TrackNumber: r.SongRow.TrackNumber,
+			IsPublic:    r.SongRow.IsPublic,
 		})
 	}
 
