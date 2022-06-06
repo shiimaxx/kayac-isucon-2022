@@ -816,6 +816,9 @@ func insertPlaylistSong(ctx context.Context, db connOrTx, playlistID, sortOrder,
 }
 
 func insertPlaylistSongs(ctx context.Context, db *sqlx.Tx, playlistID int, songIDs []int) error {
+	if len(songIDs) < 1 {
+		return nil
+	}
 	var records []map[string]interface{}
 	for i, songID := range songIDs {
 		records = append(records, map[string]interface{}{
