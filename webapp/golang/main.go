@@ -87,7 +87,11 @@ func cacheControllPrivate(next echo.HandlerFunc) echo.HandlerFunc {
 	}
 }
 
+var playlistUpdateSem chan struct{}
+
 func main() {
+	playlistUpdateSem = make(chan struct{}, 5)
+
 	e := echo.New()
 	e.Debug = true
 	e.Logger.SetLevel(log.DEBUG)
@@ -1345,6 +1349,11 @@ func apiPlaylistAddHandler(c echo.Context) error {
 // POST /api/playlist/update
 
 func apiPlaylistUpdateHandler(c echo.Context) error {
+	playlistUpdateSem <- struct{}{}
+	defer func() {
+		<-playlistUpdateSem
+	}()
+
 	_, valid, err := validateSession(c)
 	if err != nil {
 		c.Logger().Errorf("error validateSession: %s", err)
