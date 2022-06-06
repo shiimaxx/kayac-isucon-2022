@@ -830,6 +830,24 @@ func insertPlaylistSong(ctx context.Context, db connOrTx, playlistID, sortOrder,
 	return nil
 }
 
+func insertPlaylistSongs(ctx context.Context, db *sqlx.Tx, playlistID int, songIDs []int) error {
+	var records []map[string]interface{}
+	for i, songID := range songIDs {
+		records = append(records, map[string]interface{}{
+			"playlist_id": playlistID,
+			"sort_order":  i + 1,
+			"song_id":     songID,
+		})
+	}
+
+	if _, err := db.NamedExec(
+		"INSERT INTO playlist_song (`playlist_id`, `sort_order`, `song_id`) VALUES (:playlist_id, :sort_order, :song_id)", records,
+	); err != nil {
+		return fmt.Errorf("error Insert playlist_song by playlist_id=%d: %w", playlistID, err)
+	}
+	return nil
+}
+
 func insertPlaylistFavorite(ctx context.Context, db connOrTx, playlistID int, favoriteUserAccount string, createdAt time.Time) error {
 	if _, err := db.ExecContext(
 		ctx,
@@ -1432,21 +1450,67 @@ func apiPlaylistUpdateHandler(c echo.Context) error {
 		return errorResponse(c, 500, "internal server error")
 	}
 
-	// songsを削除→新しいものを入れる
-	if _, err := tx.ExecContext(
+	var beforeULIDs []string
+	if err := db.SelectContext(
 		ctx,
-		"DELETE FROM playlist_song WHERE playlist_id = ?",
+		&beforeULIDs,
+		"SELECT s.ulid FROM playlist_song ps LEFT JOIN song s ON ps.song_id = s.id WHERE ps.playlist_id = ?",
 		playlist.ID,
 	); err != nil {
 		tx.Rollback()
 		c.Logger().Errorf(
-			"error Delete playlist_song by id=%d: %s",
+			"error Select playlist_song by playlist_id=%d: %w",
 			playlist.ID, err,
 		)
 		return errorResponse(c, 500, "internal server error")
 	}
 
-	for i, songULID := range songULIDs {
+	if len(beforeULIDs) > 0 {
+		inQuery, inArgs, err := sqlx.In("DELETE FROM playlist_song WHERE playlist_id = ? AND NOT IN (?)", playlist.ID, beforeULIDs)
+		if err != nil {
+			tx.Rollback()
+			c.Logger().Errorf(
+				"error generate inQuery",
+				playlist.ID, err,
+			)
+			return errorResponse(c, 500, "internal server error")
+		}
+
+		if _, err := tx.ExecContext(
+			ctx,
+			inQuery,
+			inArgs,
+		); err != nil {
+			tx.Rollback()
+			c.Logger().Errorf(
+				"error Delete playlist_song by id=%d: %s",
+				playlist.ID, err,
+			)
+			return errorResponse(c, 500, "internal server error")
+		}
+	} else {
+		if _, err := tx.ExecContext(
+			ctx,
+			"DELETE FROM playlist_song WHERE playlist_id = ?",
+			playlist.ID,
+		); err != nil {
+			tx.Rollback()
+			c.Logger().Errorf(
+				"error Delete playlist_song by id=%d: %s",
+				playlist.ID, err,
+			)
+			return errorResponse(c, 500, "internal server error")
+		}
+	}
+
+	var songs []int
+	for _, songULID := range songULIDs {
+		for _, u := range beforeULIDs {
+			if songULID == u {
+				continue
+			}
+		}
+
 		song, err := getSongByULID(ctx, tx, songULID)
 		if err != nil {
 			tx.Rollback()
@@ -1457,12 +1521,13 @@ func apiPlaylistUpdateHandler(c echo.Context) error {
 			tx.Rollback()
 			return errorResponse(c, 400, fmt.Sprintf("song not found. ulid: %s", songULID))
 		}
+		songs = append(songs, song.ID)
+	}
 
-		if err := insertPlaylistSong(ctx, tx, playlist.ID, i+1, song.ID); err != nil {
-			tx.Rollback()
-			c.Logger().Errorf("error insertPlaylistSong: %s", err)
-			return errorResponse(c, 500, "internal server error")
-		}
+	if err := insertPlaylistSongs(ctx, tx, playlist.ID, songs); err != nil {
+		tx.Rollback()
+		c.Logger().Errorf("error insertPlaylistSong: %s", err)
+		return errorResponse(c, 500, "internal server error")
 	}
 
 	if err := tx.Commit(); err != nil {
