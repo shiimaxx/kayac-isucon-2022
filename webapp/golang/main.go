@@ -87,11 +87,7 @@ func cacheControllPrivate(next echo.HandlerFunc) echo.HandlerFunc {
 	}
 }
 
-var playlistUpdateSem chan struct{}
-
 func main() {
-	playlistUpdateSem = make(chan struct{}, 5)
-
 	e := echo.New()
 	e.Debug = true
 	e.Logger.SetLevel(log.DEBUG)
@@ -1349,11 +1345,6 @@ func apiPlaylistAddHandler(c echo.Context) error {
 // POST /api/playlist/update
 
 func apiPlaylistUpdateHandler(c echo.Context) error {
-	playlistUpdateSem <- struct{}{}
-	defer func() {
-		<-playlistUpdateSem
-	}()
-
 	_, valid, err := validateSession(c)
 	if err != nil {
 		c.Logger().Errorf("error validateSession: %s", err)
@@ -1425,6 +1416,39 @@ func apiPlaylistUpdateHandler(c echo.Context) error {
 		return errorResponse(c, 400, "invalid song_ulids")
 	}
 
+	var beforeULIDs []string
+	if err := db.SelectContext(
+		ctx,
+		&beforeULIDs,
+		"SELECT s.ulid FROM playlist_song ps LEFT JOIN song s ON ps.song_id = s.id WHERE ps.playlist_id = ?",
+		playlist.ID,
+	); err != nil {
+		c.Logger().Errorf(
+			"error Select playlist_song by playlist_id=%d: %w",
+			playlist.ID, err,
+		)
+		return errorResponse(c, 500, "internal server error")
+	}
+
+	var songs []int
+	for _, songULID := range songULIDs {
+		for _, u := range beforeULIDs {
+			if songULID == u {
+				continue
+			}
+		}
+
+		song, err := getSongByULID(ctx, conn, songULID)
+		if err != nil {
+			c.Logger().Errorf("error getSongByULID: %s", err)
+			return errorResponse(c, 500, "internal server error")
+		}
+		if song == nil {
+			return errorResponse(c, 400, fmt.Sprintf("song not found. ulid: %s", songULID))
+		}
+		songs = append(songs, song.ID)
+	}
+
 	updatedTimestamp := time.Now()
 
 	tx, err := conn.BeginTxx(ctx, nil)
@@ -1443,21 +1467,6 @@ func apiPlaylistUpdateHandler(c echo.Context) error {
 		c.Logger().Errorf(
 			"error Update playlist by name=%s, is_public=%t, updated_at=%s, ulid=%s: %s",
 			name, isPublic, updatedTimestamp, playlist.ULID, err,
-		)
-		return errorResponse(c, 500, "internal server error")
-	}
-
-	var beforeULIDs []string
-	if err := db.SelectContext(
-		ctx,
-		&beforeULIDs,
-		"SELECT s.ulid FROM playlist_song ps LEFT JOIN song s ON ps.song_id = s.id WHERE ps.playlist_id = ?",
-		playlist.ID,
-	); err != nil {
-		tx.Rollback()
-		c.Logger().Errorf(
-			"error Select playlist_song by playlist_id=%d: %w",
-			playlist.ID, err,
 		)
 		return errorResponse(c, 500, "internal server error")
 	}
@@ -1498,27 +1507,6 @@ func apiPlaylistUpdateHandler(c echo.Context) error {
 			)
 			return errorResponse(c, 500, "internal server error")
 		}
-	}
-
-	var songs []int
-	for _, songULID := range songULIDs {
-		for _, u := range beforeULIDs {
-			if songULID == u {
-				continue
-			}
-		}
-
-		song, err := getSongByULID(ctx, tx, songULID)
-		if err != nil {
-			tx.Rollback()
-			c.Logger().Errorf("error getSongByULID: %s", err)
-			return errorResponse(c, 500, "internal server error")
-		}
-		if song == nil {
-			tx.Rollback()
-			return errorResponse(c, 400, fmt.Sprintf("song not found. ulid: %s", songULID))
-		}
-		songs = append(songs, song.ID)
 	}
 
 	if err := insertPlaylistSongs(ctx, tx, playlist.ID, songs); err != nil {
