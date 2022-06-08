@@ -1,153 +1,153 @@
 Top 20 Sort By Count
 Count    Total    Mean  Stddev    Min  P50.0  P90.0  P95.0  P99.0    Max  2xx  3xx  4xx  5xx  TotalBytes   MinBytes  MeanBytes   MaxBytes  Request
-  449   73.805  0.1644  0.1695  0.001  0.108  0.379  0.570  0.773  0.871  447    0    2    0     2481262         68       5526      57595  GET /api/playlists HTTP/1.1
-  404   89.410  0.2213  0.1475  0.038  0.182  0.447  0.501  0.624  0.785  404    0    0    0    16089812      39528      39826      40088  GET /api/recent_playlists HTTP/1.1
-  283  721.531  2.5496  1.3197  0.177  2.860  4.285  4.438  4.627  4.678  261    0   22    0    10379920          0      36678      39791  GET /api/popular_playlists HTTP/1.1
-  262    6.719  0.0256  0.0372  0.003  0.017  0.035  0.052  0.254  0.288  243    0   19    0       10830         38         41         84  POST /api/login HTTP/1.1
-  149    1.924  0.0129  0.0141  0.004  0.010  0.020  0.024  0.093  0.141  149    0    0    0       12963         87         87         87  POST /api/playlist/add HTTP/1.1
-   22    0.242  0.0110  0.0069  0.002  0.010  0.017  0.020  0.034  0.034   22    0    0    0      222559        477      10116      10582  GET /api/playlist/01G4Z1NH4QB4DB7QB1DJC87ZNA HTTP/1.1
-   21    0.554  0.0264  0.0249  0.004  0.022  0.051  0.090  0.098  0.098   21    0    0    0      157430       7492       7496       7498  GET /api/playlist/01FF8S04C8D9YWYPGVTA5PJZZJ HTTP/1.1
-   21    1.837  0.0875  0.1731  0.007  0.020  0.395  0.485  0.626  0.626   21    0    0    0      263279      12176      12537      13694  POST /api/playlist/01G4Z1N7PP2G332S3S4X59C631/favorite HTTP/1.1
-   21    0.417  0.0199  0.0118  0.005  0.017  0.029  0.031  0.063  0.063   21    0    0    0      106435       5063       5068       5069  GET /api/playlist/01FEWPZ8CG0711SF5V0TN0MGVN HTTP/1.1
-   21    0.588  0.0280  0.0225  0.008  0.023  0.036  0.042  0.118  0.118   21    0    0    0      356417      16273      16972      18713  POST /api/playlist/01G4Z1NDA3BT0ESMHJ7QV0R66G/favorite HTTP/1.1
-   21    0.388  0.0185  0.0125  0.006  0.015  0.028  0.032  0.063  0.063   21    0    0    0      250692      11929      11937      11943  GET /api/playlist/01FR91FV98DF5C3VGCFTF0AYF6 HTTP/1.1
-   20    0.617  0.0309  0.0381  0.012  0.020  0.043  0.193  0.193  0.193   20    0    0    0      165206       3976       8260       9059  POST /api/playlist/01G4Z1NH7GR0WK6WWDW679HHN0/favorite HTTP/1.1
-   20    2.350  0.1175  0.2461  0.015  0.021  0.450  1.058  1.058  1.058   19    0    1    0       47016          0       2350       2475  POST /api/playlist/01G4Z1NHT2PZA5MWC7184Y5ASW/favorite HTTP/1.1
-   20    0.131  0.0066  0.0052  0.001  0.005  0.014  0.022  0.022  0.022   19    0    1    0      162303         72       8115       8545  GET /api/playlist/01G4Z1MY5STXR0EPZC0W8BW62K HTTP/1.1
-   20    0.670  0.0335  0.0649  0.009  0.016  0.069  0.311  0.311  0.311   20    0    0    0      105192       3976       5259       6829  POST /api/playlist/01G4Z1N612MDCCS03JC06Z75B1/favorite HTTP/1.1
-   19    0.412  0.0217  0.0143  0.007  0.020  0.044  0.064  0.064  0.064   19    0    0    0      222911      11725      11732      11739  GET /api/playlist/01FSFCJ4RR9DV8H6D86C6XJ3Q3 HTTP/1.1
-   19    0.235  0.0124  0.0087  0.003  0.010  0.025  0.039  0.039  0.039   19    0    0    0      325547      17119      17134      17141  GET /api/playlist/01F6NF9418FAB19BGNVT38CGPW HTTP/1.1
-   19    0.381  0.0201  0.0222  0.008  0.012  0.036  0.109  0.109  0.109   19    0    0    0      304002       3976      16000      18041  POST /api/playlist/01G2Y65KYGG0EHK94DTYS662X5/favorite HTTP/1.1
-   19    4.634  0.2439  0.3570  0.012  0.019  0.863  1.059  1.059  1.059   18    0    1    0       26865          0       1413       1493  POST /api/playlist/01G4Z1NEAJ90R2PATP6QQBT4FK/favorite HTTP/1.1
-   19    0.164  0.0086  0.0097  0.002  0.005  0.028  0.041  0.041  0.041   19    0    0    0      111934        430       5891       6195  GET /api/playlist/01G4Z1N87B6RB6WZ7SJ015B1S8 HTTP/1.1
+  418   61.974  0.1483  0.1736  0.002  0.094  0.352  0.520  0.825  1.253  416    0    2    0     1383924         55       3310      38295  GET /api/playlists HTTP/1.1
+  372   75.157  0.2020  0.1359  0.032  0.184  0.394  0.473  0.558  0.748  372    0    0    0    11452176      30521      30785      30953  GET /api/recent_playlists HTTP/1.1
+  283  773.551  2.7334  1.0141  0.247  2.734  3.925  4.002  4.344  4.488  260    0   23    0     7992636          0      28242      30767  GET /api/popular_playlists HTTP/1.1
+  239    5.858  0.0245  0.0475  0.004  0.016  0.030  0.052  0.255  0.541  220    0   19    0        7729         29         32         71  POST /api/login HTTP/1.1
+  140    2.791  0.0199  0.0466  0.004  0.010  0.023  0.078  0.332  0.372  138    0    2    0       10212          0         72         74  POST /api/playlist/add HTTP/1.1
+   21    0.236  0.0112  0.0105  0.001  0.009  0.015  0.038  0.044  0.044   21    0    0    0       91949        366       4378       4581  GET /api/playlist/01G51J10SEQR7BN4A65JV33JBR HTTP/1.1
+   21    0.344  0.0164  0.0110  0.007  0.012  0.034  0.034  0.050  0.050   21    0    0    0      190799       9080       9085       9094  GET /api/playlist/01FH4BGYKG660243FB9S0RDQ5R HTTP/1.1
+   21    0.277  0.0132  0.0066  0.005  0.012  0.022  0.025  0.029  0.029   21    0    0    0      265047      12610      12621      12625  GET /api/playlist/01FJPQSBMGYJPA8G77EDTRZRD7 HTTP/1.1
+   20    0.111  0.0056  0.0037  0.002  0.004  0.013  0.015  0.015  0.015   20    0    0    0      251471      12564      12573      12579  GET /api/playlist/01G2Y5Z8TGH4AWRM09PBKGMCW0 HTTP/1.1
+   20    0.118  0.0059  0.0038  0.001  0.005  0.013  0.014  0.014  0.014   19    0    1    0      107637         59       5381       5662  GET /api/playlist/01G51J0NWESNB3XYXY1M695HB7 HTTP/1.1
+   19    0.379  0.0199  0.0386  0.003  0.011  0.024  0.182  0.182  0.182   19    0    0    0      173021        369       9106       9598  GET /api/playlist/01G51J17CJS990WYRBPA704RYG HTTP/1.1
+   19    0.305  0.0161  0.0101  0.005  0.013  0.036  0.041  0.041  0.041   19    0    0    0      227646      11974      11981      11988  GET /api/playlist/01F7AB7PBR5AYPAFFBA6FV7GV3 HTTP/1.1
+   19    0.156  0.0082  0.0064  0.002  0.006  0.017  0.030  0.030  0.030   19    0    0    0       64902        372       3415       3585  GET /api/playlist/01G51J102G091SJBN76RCWTRJC HTTP/1.1
+   19    0.295  0.0155  0.0075  0.005  0.015  0.028  0.031  0.031  0.031   19    0    0    0       69212       3642       3642       3643  GET /api/playlist/01FEWPZ8CG0711SF5V0TN0MGVN HTTP/1.1
+   19    0.381  0.0201  0.0107  0.004  0.016  0.036  0.042  0.042  0.042   19    0    0    0      159416       8381       8390       8396  GET /api/playlist/01FSFCJ4RR9DV8H6D86C6XJ3Q3 HTTP/1.1
+   19    0.290  0.0153  0.0111  0.005  0.013  0.030  0.052  0.052  0.052   19    0    0    0       69729       3669       3669       3670  GET /api/playlist/01FB9GWMH82V3KE17PS8MK33NA HTTP/1.1
+   19    0.307  0.0162  0.0079  0.004  0.012  0.026  0.037  0.037  0.037   19    0    0    0      244667      12866      12877      12881  GET /api/playlist/01G0RJB510567M7544PKK5A3EP HTTP/1.1
+   19    0.328  0.0173  0.0102  0.005  0.016  0.040  0.042  0.042  0.042   19    0    0    0      210976      11097      11104      11111  GET /api/playlist/01FM3DHNVG1XMJ68V113MVSGBS HTTP/1.1
+   18    0.129  0.0072  0.0032  0.001  0.007  0.014  0.014  0.014  0.014   18    0    0    0      192193        364      10677      11288  GET /api/playlist/01G51J11DAXBZ2WFSY371DEG59 HTTP/1.1
+   18    0.347  0.0193  0.0089  0.008  0.019  0.036  0.037  0.037  0.037   18    0    0    0      152048       8073       8447      11409  POST /api/playlist/01G51J138JGXT3H9PT4BKDWRDK/favorite HTTP/1.1
 
 Top 20 Sort By Total
 Count    Total     Mean   Stddev     Min   P50.0   P90.0   P95.0   P99.0     Max  2xx  3xx  4xx  5xx  TotalBytes   MinBytes  MeanBytes   MaxBytes  Request
-  283  721.531   2.5496   1.3197   0.177   2.860   4.285   4.438   4.627   4.678  261    0   22    0    10379920          0      36678      39791  GET /api/popular_playlists HTTP/1.1
-  404   89.410   0.2213   0.1475   0.038   0.182   0.447   0.501   0.624   0.785  404    0    0    0    16089812      39528      39826      40088  GET /api/recent_playlists HTTP/1.1
-  449   73.805   0.1644   0.1695   0.001   0.108   0.379   0.570   0.773   0.871  447    0    2    0     2481262         68       5526      57595  GET /api/playlists HTTP/1.1
-    1   13.279  13.2790   0.0000  13.279  13.279  13.279  13.279  13.279  13.279    1    0    0    0          38         38         38         38  POST /initialize HTTP/1.1
-  262    6.719   0.0256   0.0372   0.003   0.017   0.035   0.052   0.254   0.288  243    0   19    0       10830         38         41         84  POST /api/login HTTP/1.1
-   13    5.525   0.4250   0.5208   0.010   0.111   1.021   1.709   1.709   1.709   13    0    0    0       25510       1962       1962       1963  POST /api/playlist/01G4Z1NER8Z0568QCVYX1WJ4RV/favorite HTTP/1.1
-   13    4.974   0.3826   0.5661   0.014   0.032   1.260   1.780   1.780   1.780   13    0    0    0       22932       1764       1764       1764  POST /api/playlist/01F5J9D1K86AD5MJD0YS9HK6C7/favorite HTTP/1.1
-   19    4.634   0.2439   0.3570   0.012   0.019   0.863   1.059   1.059   1.059   18    0    1    0       26865          0       1413       1493  POST /api/playlist/01G4Z1NEAJ90R2PATP6QQBT4FK/favorite HTTP/1.1
-   12    4.626   0.3855   0.4341   0.018   0.300   0.927   1.376   1.376   1.376   12    0    0    0        5148        429        429        429  POST /api/playlist/01FZVX1ARGFG60GGY8FH55YAW3/favorite HTTP/1.1
-   12    4.499   0.3749   0.4312   0.019   0.347   0.989   1.398   1.398   1.398   12    0    0    0       26532       2211       2211       2211  POST /api/playlist/01FPN3VWBGVFNQ0ATCYZ3HS8ZZ/favorite HTTP/1.1
-   13    4.463   0.3433   0.3855   0.012   0.364   1.040   1.228   1.228   1.228   11    0    2    0       27027          0       2079       2457  POST /api/playlist/01FSJ8V1Y0P7ZYWC28NEP1QKKY/favorite HTTP/1.1
-    8    4.165   0.5206   0.3620   0.024   0.591   0.991   0.991   0.991   0.991    7    0    1    0       17437          0       2179       2491  POST /api/playlist/01FCGHFN2RS91YS1JFZKX1V7TM/favorite HTTP/1.1
-   15    4.024   0.2683   0.3597   0.007   0.034   0.915   1.046   1.046   1.046   15    0    0    0       32871       2191       2191       2192  POST /api/playlist/01G4Z1N9VYX7G23N9875ZQ602F/favorite HTTP/1.1
-   13    3.967   0.3052   0.3996   0.016   0.062   1.011   1.045   1.045   1.045   13    0    0    0       45292       3484       3484       3484  POST /api/playlist/01FPVXF9ERS4TR2QJC93D98V7N/favorite HTTP/1.1
-   18    3.922   0.2179   0.3720   0.007   0.023   0.831   1.376   1.376   1.376   18    0    0    0       35712       1984       1984       1984  POST /api/playlist/01G2Y2DR0GB4SMAKSAD6XVQ1E7/favorite HTTP/1.1
-   13    3.822   0.2940   0.3993   0.013   0.039   0.925   0.959   0.959   0.959   13    0    0    0       48516       3732       3732       3732  POST /api/playlist/01G0N9HJJGJC2SE3XD56QYYF8R/favorite HTTP/1.1
-   13    3.043   0.2341   0.5131   0.007   0.015   0.766   1.862   1.862   1.862   13    0    0    0        8805        677        677        678  POST /api/playlist/01G4Z1N6DGXH9FE5GSCX7NNZG2/favorite HTTP/1.1
-    7    2.949   0.4213   0.6658   0.013   0.028   1.936   1.936   1.936   1.936    7    0    0    0       10353       1479       1479       1479  POST /api/playlist/01FAYFBG10XXR23KGHW1E5X6HF/favorite HTTP/1.1
-   11    2.644   0.2404   0.3118   0.012   0.046   0.811   0.826   0.826   0.826   11    0    0    0       38018       3456       3456       3457  POST /api/playlist/01G4Z1N82SDBAB7MC33YA5EGAA/favorite HTTP/1.1
-   12    2.598   0.2165   0.3308   0.015   0.023   0.765   1.049   1.049   1.049   12    0    0    0       32211       2684       2684       2685  POST /api/playlist/01G4Z1N4WG2DZQQ10DRY7JD2H8/favorite HTTP/1.1
+  283  773.551   2.7334   1.0141   0.247   2.734   3.925   4.002   4.344   4.488  260    0   23    0     7992636          0      28242      30767  GET /api/popular_playlists HTTP/1.1
+  372   75.157   0.2020   0.1359   0.032   0.184   0.394   0.473   0.558   0.748  372    0    0    0    11452176      30521      30785      30953  GET /api/recent_playlists HTTP/1.1
+  418   61.974   0.1483   0.1736   0.002   0.094   0.352   0.520   0.825   1.253  416    0    2    0     1383924         55       3310      38295  GET /api/playlists HTTP/1.1
+    1   13.034  13.0340   0.0000  13.034  13.034  13.034  13.034  13.034  13.034    1    0    0    0          29         29         29         29  POST /initialize HTTP/1.1
+   14    5.951   0.4251   0.4802   0.011   0.289   1.231   1.359   1.359   1.359   14    0    0    0       14957       1068       1068       1069  POST /api/playlist/01G51J18BNT1K1Y5KJTSMBTBVR/favorite HTTP/1.1
+  239    5.858   0.0245   0.0475   0.004   0.016   0.030   0.052   0.255   0.541  220    0   19    0        7729         29         32         71  POST /api/login HTTP/1.1
+   11    4.707   0.4279   0.4836   0.019   0.277   1.240   1.308   1.308   1.308   11    0    0    0       13818       1256       1256       1257  POST /api/playlist/01G51J112A0B0SVHV4B9VGNKTF/favorite HTTP/1.1
+   11    4.613   0.4194   0.4688   0.013   0.111   0.987   1.276   1.276   1.276   11    0    0    0       33365       3033       3033       3034  POST /api/playlist/01G51J12ZM2YHB7F70S6MFJ3R5/favorite HTTP/1.1
+   13    4.509   0.3468   0.4416   0.011   0.032   1.022   1.231   1.231   1.231   13    0    0    0        9052        696        696        697  POST /api/playlist/01G51J17WXRKJJVGGWVDE85KAN/favorite HTTP/1.1
+   11    4.361   0.3965   0.6791   0.013   0.024   1.051   2.192   2.192   2.192   11    0    0    0        3830        348        348        349  POST /api/playlist/01G51J19ZNP9HWVFDMJ5G34EN9/favorite HTTP/1.1
+    9    3.986   0.4429   0.5336   0.017   0.024   1.443   1.443   1.443   1.443    9    0    0    0       14346       1594       1594       1594  POST /api/playlist/01FPN3VWBGVFNQ0ATCYZ3HS8ZZ/favorite HTTP/1.1
+    9    3.793   0.4214   0.4409   0.009   0.267   1.432   1.432   1.432   1.432    9    0    0    0       14726       1636       1636       1637  POST /api/playlist/01G2Y3D1Z0A860VC0TT1D09KCC/favorite HTTP/1.1
+    8    3.719   0.4649   0.5716   0.017   0.034   1.335   1.335   1.335   1.335    8    0    0    0        4328        541        541        541  POST /api/playlist/01G51J17W6JAPFH2EA87JKYZTF/favorite HTTP/1.1
+   10    3.711   0.3711   0.6088   0.015   0.200   2.115   2.115   2.115   2.115   10    0    0    0       37541       3754       3754       3755  POST /api/playlist/01FD2WC8JGCK5D981P2R4K1XNR/favorite HTTP/1.1
+   14    3.482   0.2487   0.3999   0.011   0.033   1.158   1.201   1.201   1.201   14    0    0    0       37562       2683       2683       2683  POST /api/playlist/01G0N9HJJGJC2SE3XD56QYYF8R/favorite HTTP/1.1
+    9    3.438   0.3820   0.4941   0.025   0.044   1.217   1.217   1.217   1.217    9    0    0    0       22266       2474       2474       2474  POST /api/playlist/01FWQZP0XGH78P07DCB0E26X9V/favorite HTTP/1.1
+    9    3.426   0.3807   0.5311   0.007   0.016   1.435   1.435   1.435   1.435    9    0    0    0       16200       1800       1800       1800  POST /api/playlist/01FCGHFN2RS91YS1JFZKX1V7TM/favorite HTTP/1.1
+   11    3.346   0.3042   0.3749   0.013   0.045   0.947   0.978   0.978   0.978   11    0    0    0       29262       2660       2660       2661  POST /api/playlist/01G51J12CRB34TT4EPRZ6P2KXQ/favorite HTTP/1.1
+   11    3.281   0.2983   0.2459   0.007   0.310   0.633   0.642   0.642   0.642   11    0    0    0       28262       2569       2569       2570  POST /api/playlist/01G2Y0RPR0RQFTTBMDNZ91XTF9/favorite HTTP/1.1
+   14    3.232   0.2309   0.3301   0.012   0.031   0.873   1.031   1.031   1.031   14    0    0    0        4858        347        347        347  POST /api/playlist/01FZVX1ARGFG60GGY8FH55YAW3/favorite HTTP/1.1
 
 Top 20 Sort By Mean
 Count    Total     Mean   Stddev     Min   P50.0   P90.0   P95.0   P99.0     Max  2xx  3xx  4xx  5xx  TotalBytes   MinBytes  MeanBytes   MaxBytes  Request
-    1   13.279  13.2790   0.0000  13.279  13.279  13.279  13.279  13.279  13.279    1    0    0    0          38         38         38         38  POST /initialize HTTP/1.1
-  283  721.531   2.5496   1.3197   0.177   2.860   4.285   4.438   4.627   4.678  261    0   22    0    10379920          0      36678      39791  GET /api/popular_playlists HTTP/1.1
-    1    2.064   2.0640   0.0000   2.064   2.064   2.064   2.064   2.064   2.064    1    0    0    0        1462       1462       1462       1462  POST /api/playlist/01F7NBXPPR725JJCY9DBZZH2Z4/favorite HTTP/1.1
-    1    1.043   1.0430   0.0000   1.043   1.043   1.043   1.043   1.043   1.043    1    0    0    0         660        660        660        660  POST /api/playlist/01FS85WQP8JMDHN8P4WFRQYVG3/favorite HTTP/1.1
-    1    1.019   1.0190   0.0000   1.019   1.019   1.019   1.019   1.019   1.019    1    0    0    0        1461       1461       1461       1461  POST /api/playlist/01FTDTQCQ0ENQM4ZJES2ZXBTP0/favorite HTTP/1.1
-    1    0.919   0.9190   0.0000   0.919   0.919   0.919   0.919   0.919   0.919    1    0    0    0       16273      16273      16273      16273  POST /api/playlist/01FE2F7PQRNMQE4FFBQYWD4QEH/favorite HTTP/1.1
-    8    4.165   0.5206   0.3620   0.024   0.591   0.991   0.991   0.991   0.991    7    0    1    0       17437          0       2179       2491  POST /api/playlist/01FCGHFN2RS91YS1JFZKX1V7TM/favorite HTTP/1.1
-   13    5.525   0.4250   0.5208   0.010   0.111   1.021   1.709   1.709   1.709   13    0    0    0       25510       1962       1962       1963  POST /api/playlist/01G4Z1NER8Z0568QCVYX1WJ4RV/favorite HTTP/1.1
-    7    2.949   0.4213   0.6658   0.013   0.028   1.936   1.936   1.936   1.936    7    0    0    0       10353       1479       1479       1479  POST /api/playlist/01FAYFBG10XXR23KGHW1E5X6HF/favorite HTTP/1.1
-   12    4.626   0.3855   0.4341   0.018   0.300   0.927   1.376   1.376   1.376   12    0    0    0        5148        429        429        429  POST /api/playlist/01FZVX1ARGFG60GGY8FH55YAW3/favorite HTTP/1.1
-   13    4.974   0.3826   0.5661   0.014   0.032   1.260   1.780   1.780   1.780   13    0    0    0       22932       1764       1764       1764  POST /api/playlist/01F5J9D1K86AD5MJD0YS9HK6C7/favorite HTTP/1.1
-   12    4.499   0.3749   0.4312   0.019   0.347   0.989   1.398   1.398   1.398   12    0    0    0       26532       2211       2211       2211  POST /api/playlist/01FPN3VWBGVFNQ0ATCYZ3HS8ZZ/favorite HTTP/1.1
-   13    4.463   0.3433   0.3855   0.012   0.364   1.040   1.228   1.228   1.228   11    0    2    0       27027          0       2079       2457  POST /api/playlist/01FSJ8V1Y0P7ZYWC28NEP1QKKY/favorite HTTP/1.1
-   13    3.967   0.3052   0.3996   0.016   0.062   1.011   1.045   1.045   1.045   13    0    0    0       45292       3484       3484       3484  POST /api/playlist/01FPVXF9ERS4TR2QJC93D98V7N/favorite HTTP/1.1
-   13    3.822   0.2940   0.3993   0.013   0.039   0.925   0.959   0.959   0.959   13    0    0    0       48516       3732       3732       3732  POST /api/playlist/01G0N9HJJGJC2SE3XD56QYYF8R/favorite HTTP/1.1
-    8    2.301   0.2876   0.3599   0.020   0.190   1.005   1.005   1.005   1.005    8    0    0    0        5544        693        693        693  POST /api/playlist/01FVQ7K5R85B9HQ8PNSBESWXVQ/favorite HTTP/1.1
-   15    4.024   0.2683   0.3597   0.007   0.034   0.915   1.046   1.046   1.046   15    0    0    0       32871       2191       2191       2192  POST /api/playlist/01G4Z1N9VYX7G23N9875ZQ602F/favorite HTTP/1.1
-    8    2.035   0.2544   0.4447   0.007   0.026   1.352   1.352   1.352   1.352    8    0    0    0       17968       2246       2246       2246  POST /api/playlist/01G2Y1CT9RDX900DGNJ4K4DQJE/favorite HTTP/1.1
-   19    4.634   0.2439   0.3570   0.012   0.019   0.863   1.059   1.059   1.059   18    0    1    0       26865          0       1413       1493  POST /api/playlist/01G4Z1NEAJ90R2PATP6QQBT4FK/favorite HTTP/1.1
-   11    2.644   0.2404   0.3118   0.012   0.046   0.811   0.826   0.826   0.826   11    0    0    0       38018       3456       3456       3457  POST /api/playlist/01G4Z1N82SDBAB7MC33YA5EGAA/favorite HTTP/1.1
+    1   13.034  13.0340   0.0000  13.034  13.034  13.034  13.034  13.034  13.034    1    0    0    0          29         29         29         29  POST /initialize HTTP/1.1
+  283  773.551   2.7334   1.0141   0.247   2.734   3.925   4.002   4.344   4.488  260    0   23    0     7992636          0      28242      30767  GET /api/popular_playlists HTTP/1.1
+    1    2.128   2.1280   0.0000   2.128   2.128   2.128   2.128   2.128   2.128    1    0    0    0         862        862        862        862  POST /api/playlist/01FXSQKRJGB97V2D9F71V006H9/favorite HTTP/1.1
+    1    2.123   2.1230   0.0000   2.123   2.123   2.123   2.123   2.123   2.123    1    0    0    0        2095       2095       2095       2095  POST /api/playlist/01FA729MW0CGF0KJE0C31YM9XY/favorite HTTP/1.1
+    1    1.849   1.8490   0.0000   1.849   1.849   1.849   1.849   1.849   1.849    1    0    0    0        1819       1819       1819       1819  POST /api/playlist/01FYR6N0107PZAXPWS308805ND/favorite HTTP/1.1
+    1    1.315   1.3150   0.0000   1.315   1.315   1.315   1.315   1.315   1.315    1    0    0    0         349        349        349        349  POST /api/playlist/01G1TXBTFR9ZZK4YYEHMMY7V2Q/favorite HTTP/1.1
+    1    0.530   0.5300   0.0000   0.530   0.530   0.530   0.530   0.530   0.530    1    0    0    0       12016      12016      12016      12016  POST /api/playlist/01FT0TYNQRJT55X0D5GB7DCASX/favorite HTTP/1.1
+    8    3.719   0.4649   0.5716   0.017   0.034   1.335   1.335   1.335   1.335    8    0    0    0        4328        541        541        541  POST /api/playlist/01G51J17W6JAPFH2EA87JKYZTF/favorite HTTP/1.1
+    4    1.810   0.4525   0.5230   0.028   0.416   1.318   1.318   1.318   1.318    4    0    0    0       12384       3096       3096       3096  POST /api/playlist/01FBG3AC10KFP4QDQJYPG01VEM/favorite HTTP/1.1
+    9    3.986   0.4429   0.5336   0.017   0.024   1.443   1.443   1.443   1.443    9    0    0    0       14346       1594       1594       1594  POST /api/playlist/01FPN3VWBGVFNQ0ATCYZ3HS8ZZ/favorite HTTP/1.1
+   11    4.707   0.4279   0.4836   0.019   0.277   1.240   1.308   1.308   1.308   11    0    0    0       13818       1256       1256       1257  POST /api/playlist/01G51J112A0B0SVHV4B9VGNKTF/favorite HTTP/1.1
+   14    5.951   0.4251   0.4802   0.011   0.289   1.231   1.359   1.359   1.359   14    0    0    0       14957       1068       1068       1069  POST /api/playlist/01G51J18BNT1K1Y5KJTSMBTBVR/favorite HTTP/1.1
+    9    3.793   0.4214   0.4409   0.009   0.267   1.432   1.432   1.432   1.432    9    0    0    0       14726       1636       1636       1637  POST /api/playlist/01G2Y3D1Z0A860VC0TT1D09KCC/favorite HTTP/1.1
+   11    4.613   0.4194   0.4688   0.013   0.111   0.987   1.276   1.276   1.276   11    0    0    0       33365       3033       3033       3034  POST /api/playlist/01G51J12ZM2YHB7F70S6MFJ3R5/favorite HTTP/1.1
+    1    0.403   0.4030   0.0000   0.403   0.403   0.403   0.403   0.403   0.403    1    0    0    0         517        517        517        517  POST /api/playlist/01F8H9MBY08D1BS1YKZY312PPC/favorite HTTP/1.1
+   11    4.361   0.3965   0.6791   0.013   0.024   1.051   2.192   2.192   2.192   11    0    0    0        3830        348        348        349  POST /api/playlist/01G51J19ZNP9HWVFDMJ5G34EN9/favorite HTTP/1.1
+    7    2.771   0.3959   0.3548   0.006   0.206   0.952   0.952   0.952   0.952    7    0    0    0        9880       1411       1411       1412  POST /api/playlist/01G2XZPA58WJ5D4QHFZXN77D9Y/favorite HTTP/1.1
+    9    3.438   0.3820   0.4941   0.025   0.044   1.217   1.217   1.217   1.217    9    0    0    0       22266       2474       2474       2474  POST /api/playlist/01FWQZP0XGH78P07DCB0E26X9V/favorite HTTP/1.1
+    9    3.426   0.3807   0.5311   0.007   0.016   1.435   1.435   1.435   1.435    9    0    0    0       16200       1800       1800       1800  POST /api/playlist/01FCGHFN2RS91YS1JFZKX1V7TM/favorite HTTP/1.1
+    6    2.229   0.3715   0.4812   0.024   0.143   1.316   1.316   1.316   1.316    5    0    1    0       11680          0       1946       2336  POST /api/playlist/01G51J17DGY332NRWRM3ATP4MN/favorite HTTP/1.1
 
 Top 20 Sort By Standard Deviation
 Count    Total    Mean  Stddev    Min  P50.0  P90.0  P95.0  P99.0    Max  2xx  3xx  4xx  5xx  TotalBytes   MinBytes  MeanBytes   MaxBytes  Request
-  283  721.531  2.5496  1.3197  0.177  2.860  4.285  4.438  4.627  4.678  261    0   22    0    10379920          0      36678      39791  GET /api/popular_playlists HTTP/1.1
-    7    2.949  0.4213  0.6658  0.013  0.028  1.936  1.936  1.936  1.936    7    0    0    0       10353       1479       1479       1479  POST /api/playlist/01FAYFBG10XXR23KGHW1E5X6HF/favorite HTTP/1.1
-   13    4.974  0.3826  0.5661  0.014  0.032  1.260  1.780  1.780  1.780   13    0    0    0       22932       1764       1764       1764  POST /api/playlist/01F5J9D1K86AD5MJD0YS9HK6C7/favorite HTTP/1.1
-   13    5.525  0.4250  0.5208  0.010  0.111  1.021  1.709  1.709  1.709   13    0    0    0       25510       1962       1962       1963  POST /api/playlist/01G4Z1NER8Z0568QCVYX1WJ4RV/favorite HTTP/1.1
-   11    2.526  0.2296  0.5193  0.018  0.027  0.190  1.859  1.859  1.859   11    0    0    0       21397       1945       1945       1946  POST /api/playlist/01G4Z1NKWB19RQVA0HWFEDCVJY/favorite HTTP/1.1
-   13    3.043  0.2341  0.5131  0.007  0.015  0.766  1.862  1.862  1.862   13    0    0    0        8805        677        677        678  POST /api/playlist/01G4Z1N6DGXH9FE5GSCX7NNZG2/favorite HTTP/1.1
-    8    2.035  0.2544  0.4447  0.007  0.026  1.352  1.352  1.352  1.352    8    0    0    0       17968       2246       2246       2246  POST /api/playlist/01G2Y1CT9RDX900DGNJ4K4DQJE/favorite HTTP/1.1
-   12    4.626  0.3855  0.4341  0.018  0.300  0.927  1.376  1.376  1.376   12    0    0    0        5148        429        429        429  POST /api/playlist/01FZVX1ARGFG60GGY8FH55YAW3/favorite HTTP/1.1
-   12    4.499  0.3749  0.4312  0.019  0.347  0.989  1.398  1.398  1.398   12    0    0    0       26532       2211       2211       2211  POST /api/playlist/01FPN3VWBGVFNQ0ATCYZ3HS8ZZ/favorite HTTP/1.1
-   13    3.967  0.3052  0.3996  0.016  0.062  1.011  1.045  1.045  1.045   13    0    0    0       45292       3484       3484       3484  POST /api/playlist/01FPVXF9ERS4TR2QJC93D98V7N/favorite HTTP/1.1
-   13    3.822  0.2940  0.3993  0.013  0.039  0.925  0.959  0.959  0.959   13    0    0    0       48516       3732       3732       3732  POST /api/playlist/01G0N9HJJGJC2SE3XD56QYYF8R/favorite HTTP/1.1
-   13    4.463  0.3433  0.3855  0.012  0.364  1.040  1.228  1.228  1.228   11    0    2    0       27027          0       2079       2457  POST /api/playlist/01FSJ8V1Y0P7ZYWC28NEP1QKKY/favorite HTTP/1.1
-   18    3.922  0.2179  0.3720  0.007  0.023  0.831  1.376  1.376  1.376   18    0    0    0       35712       1984       1984       1984  POST /api/playlist/01G2Y2DR0GB4SMAKSAD6XVQ1E7/favorite HTTP/1.1
-    8    4.165  0.5206  0.3620  0.024  0.591  0.991  0.991  0.991  0.991    7    0    1    0       17437          0       2179       2491  POST /api/playlist/01FCGHFN2RS91YS1JFZKX1V7TM/favorite HTTP/1.1
-    8    2.301  0.2876  0.3599  0.020  0.190  1.005  1.005  1.005  1.005    8    0    0    0        5544        693        693        693  POST /api/playlist/01FVQ7K5R85B9HQ8PNSBESWXVQ/favorite HTTP/1.1
-   15    4.024  0.2683  0.3597  0.007  0.034  0.915  1.046  1.046  1.046   15    0    0    0       32871       2191       2191       2192  POST /api/playlist/01G4Z1N9VYX7G23N9875ZQ602F/favorite HTTP/1.1
-   19    4.634  0.2439  0.3570  0.012  0.019  0.863  1.059  1.059  1.059   18    0    1    0       26865          0       1413       1493  POST /api/playlist/01G4Z1NEAJ90R2PATP6QQBT4FK/favorite HTTP/1.1
-   12    2.598  0.2165  0.3308  0.015  0.023  0.765  1.049  1.049  1.049   12    0    0    0       32211       2684       2684       2685  POST /api/playlist/01G4Z1N4WG2DZQQ10DRY7JD2H8/favorite HTTP/1.1
-   11    2.365  0.2150  0.3228  0.012  0.028  0.628  1.060  1.060  1.060   10    0    1    0       22250          0       2022       2225  POST /api/playlist/01FT3452RR13VH24RC8N5206EK/favorite HTTP/1.1
-   11    2.644  0.2404  0.3118  0.012  0.046  0.811  0.826  0.826  0.826   11    0    0    0       38018       3456       3456       3457  POST /api/playlist/01G4Z1N82SDBAB7MC33YA5EGAA/favorite HTTP/1.1
+  283  773.551  2.7334  1.0141  0.247  2.734  3.925  4.002  4.344  4.488  260    0   23    0     7992636          0      28242      30767  GET /api/popular_playlists HTTP/1.1
+   11    4.361  0.3965  0.6791  0.013  0.024  1.051  2.192  2.192  2.192   11    0    0    0        3830        348        348        349  POST /api/playlist/01G51J19ZNP9HWVFDMJ5G34EN9/favorite HTTP/1.1
+   10    3.711  0.3711  0.6088  0.015  0.200  2.115  2.115  2.115  2.115   10    0    0    0       37541       3754       3754       3755  POST /api/playlist/01FD2WC8JGCK5D981P2R4K1XNR/favorite HTTP/1.1
+    8    3.719  0.4649  0.5716  0.017  0.034  1.335  1.335  1.335  1.335    8    0    0    0        4328        541        541        541  POST /api/playlist/01G51J17W6JAPFH2EA87JKYZTF/favorite HTTP/1.1
+    9    3.986  0.4429  0.5336  0.017  0.024  1.443  1.443  1.443  1.443    9    0    0    0       14346       1594       1594       1594  POST /api/playlist/01FPN3VWBGVFNQ0ATCYZ3HS8ZZ/favorite HTTP/1.1
+    9    3.426  0.3807  0.5311  0.007  0.016  1.435  1.435  1.435  1.435    9    0    0    0       16200       1800       1800       1800  POST /api/playlist/01FCGHFN2RS91YS1JFZKX1V7TM/favorite HTTP/1.1
+    4    1.810  0.4525  0.5230  0.028  0.416  1.318  1.318  1.318  1.318    4    0    0    0       12384       3096       3096       3096  POST /api/playlist/01FBG3AC10KFP4QDQJYPG01VEM/favorite HTTP/1.1
+    9    3.438  0.3820  0.4941  0.025  0.044  1.217  1.217  1.217  1.217    9    0    0    0       22266       2474       2474       2474  POST /api/playlist/01FWQZP0XGH78P07DCB0E26X9V/favorite HTTP/1.1
+   11    4.707  0.4279  0.4836  0.019  0.277  1.240  1.308  1.308  1.308   11    0    0    0       13818       1256       1256       1257  POST /api/playlist/01G51J112A0B0SVHV4B9VGNKTF/favorite HTTP/1.1
+    6    2.229  0.3715  0.4812  0.024  0.143  1.316  1.316  1.316  1.316    5    0    1    0       11680          0       1946       2336  POST /api/playlist/01G51J17DGY332NRWRM3ATP4MN/favorite HTTP/1.1
+   14    5.951  0.4251  0.4802  0.011  0.289  1.231  1.359  1.359  1.359   14    0    0    0       14957       1068       1068       1069  POST /api/playlist/01G51J18BNT1K1Y5KJTSMBTBVR/favorite HTTP/1.1
+    5    1.294  0.2588  0.4757  0.014  0.017  1.210  1.210  1.210  1.210    5    0    0    0        8040       1608       1608       1608  POST /api/playlist/01FT3452RR13VH24RC8N5206EK/favorite HTTP/1.1
+   11    4.613  0.4194  0.4688  0.013  0.111  0.987  1.276  1.276  1.276   11    0    0    0       33365       3033       3033       3034  POST /api/playlist/01G51J12ZM2YHB7F70S6MFJ3R5/favorite HTTP/1.1
+   13    4.509  0.3468  0.4416  0.011  0.032  1.022  1.231  1.231  1.231   13    0    0    0        9052        696        696        697  POST /api/playlist/01G51J17WXRKJJVGGWVDE85KAN/favorite HTTP/1.1
+    9    3.793  0.4214  0.4409  0.009  0.267  1.432  1.432  1.432  1.432    9    0    0    0       14726       1636       1636       1637  POST /api/playlist/01G2Y3D1Z0A860VC0TT1D09KCC/favorite HTTP/1.1
+    8    2.207  0.2759  0.4014  0.012  0.034  1.014  1.014  1.014  1.014    8    0    0    0        5432        679        679        679  POST /api/playlist/01G51J17MKP1XBKANE7FVVKFVG/favorite HTTP/1.1
+   14    3.482  0.2487  0.3999  0.011  0.033  1.158  1.201  1.201  1.201   14    0    0    0       37562       2683       2683       2683  POST /api/playlist/01G0N9HJJGJC2SE3XD56QYYF8R/favorite HTTP/1.1
+   11    3.141  0.2855  0.3903  0.013  0.036  1.032  1.095  1.095  1.095   11    0    0    0       28657       2605       2605       2606  POST /api/playlist/01G51J1FD60KED3NKCYW50TBX8/favorite HTTP/1.1
+    9    1.572  0.1747  0.3826  0.013  0.031  1.254  1.254  1.254  1.254    9    0    0    0       17280       1920       1920       1920  POST /api/playlist/01G51J17PKANH3M85GQD3AE0HH/favorite HTTP/1.1
+   11    3.346  0.3042  0.3749  0.013  0.045  0.947  0.978  0.978  0.978   11    0    0    0       29262       2660       2660       2661  POST /api/playlist/01G51J12CRB34TT4EPRZ6P2KXQ/favorite HTTP/1.1
 
 Top 20 Sort By Maximum(100 Percentile)
 Count    Total     Mean   Stddev     Min   P50.0   P90.0   P95.0   P99.0     Max  2xx  3xx  4xx  5xx  TotalBytes   MinBytes  MeanBytes   MaxBytes  Request
-    1   13.279  13.2790   0.0000  13.279  13.279  13.279  13.279  13.279  13.279    1    0    0    0          38         38         38         38  POST /initialize HTTP/1.1
-  283  721.531   2.5496   1.3197   0.177   2.860   4.285   4.438   4.627   4.678  261    0   22    0    10379920          0      36678      39791  GET /api/popular_playlists HTTP/1.1
-    1    2.064   2.0640   0.0000   2.064   2.064   2.064   2.064   2.064   2.064    1    0    0    0        1462       1462       1462       1462  POST /api/playlist/01F7NBXPPR725JJCY9DBZZH2Z4/favorite HTTP/1.1
-    7    2.949   0.4213   0.6658   0.013   0.028   1.936   1.936   1.936   1.936    7    0    0    0       10353       1479       1479       1479  POST /api/playlist/01FAYFBG10XXR23KGHW1E5X6HF/favorite HTTP/1.1
-   13    3.043   0.2341   0.5131   0.007   0.015   0.766   1.862   1.862   1.862   13    0    0    0        8805        677        677        678  POST /api/playlist/01G4Z1N6DGXH9FE5GSCX7NNZG2/favorite HTTP/1.1
-   11    2.526   0.2296   0.5193   0.018   0.027   0.190   1.859   1.859   1.859   11    0    0    0       21397       1945       1945       1946  POST /api/playlist/01G4Z1NKWB19RQVA0HWFEDCVJY/favorite HTTP/1.1
-   13    4.974   0.3826   0.5661   0.014   0.032   1.260   1.780   1.780   1.780   13    0    0    0       22932       1764       1764       1764  POST /api/playlist/01F5J9D1K86AD5MJD0YS9HK6C7/favorite HTTP/1.1
-   13    5.525   0.4250   0.5208   0.010   0.111   1.021   1.709   1.709   1.709   13    0    0    0       25510       1962       1962       1963  POST /api/playlist/01G4Z1NER8Z0568QCVYX1WJ4RV/favorite HTTP/1.1
-   12    4.499   0.3749   0.4312   0.019   0.347   0.989   1.398   1.398   1.398   12    0    0    0       26532       2211       2211       2211  POST /api/playlist/01FPN3VWBGVFNQ0ATCYZ3HS8ZZ/favorite HTTP/1.1
-   18    3.922   0.2179   0.3720   0.007   0.023   0.831   1.376   1.376   1.376   18    0    0    0       35712       1984       1984       1984  POST /api/playlist/01G2Y2DR0GB4SMAKSAD6XVQ1E7/favorite HTTP/1.1
-   12    4.626   0.3855   0.4341   0.018   0.300   0.927   1.376   1.376   1.376   12    0    0    0        5148        429        429        429  POST /api/playlist/01FZVX1ARGFG60GGY8FH55YAW3/favorite HTTP/1.1
-    8    2.035   0.2544   0.4447   0.007   0.026   1.352   1.352   1.352   1.352    8    0    0    0       17968       2246       2246       2246  POST /api/playlist/01G2Y1CT9RDX900DGNJ4K4DQJE/favorite HTTP/1.1
-   13    4.463   0.3433   0.3855   0.012   0.364   1.040   1.228   1.228   1.228   11    0    2    0       27027          0       2079       2457  POST /api/playlist/01FSJ8V1Y0P7ZYWC28NEP1QKKY/favorite HTTP/1.1
-   11    2.365   0.2150   0.3228   0.012   0.028   0.628   1.060   1.060   1.060   10    0    1    0       22250          0       2022       2225  POST /api/playlist/01FT3452RR13VH24RC8N5206EK/favorite HTTP/1.1
-   19    4.634   0.2439   0.3570   0.012   0.019   0.863   1.059   1.059   1.059   18    0    1    0       26865          0       1413       1493  POST /api/playlist/01G4Z1NEAJ90R2PATP6QQBT4FK/favorite HTTP/1.1
-   20    2.350   0.1175   0.2461   0.015   0.021   0.450   1.058   1.058   1.058   19    0    1    0       47016          0       2350       2475  POST /api/playlist/01G4Z1NHT2PZA5MWC7184Y5ASW/favorite HTTP/1.1
-   13    1.408   0.1083   0.2726   0.007   0.023   0.072   1.050   1.050   1.050   13    0    0    0      212385      16273      16337      16667  POST /api/playlist/01FQM8WNFGCZNBAKHRV4KJH3M0/favorite HTTP/1.1
-   12    2.598   0.2165   0.3308   0.015   0.023   0.765   1.049   1.049   1.049   12    0    0    0       32211       2684       2684       2685  POST /api/playlist/01G4Z1N4WG2DZQQ10DRY7JD2H8/favorite HTTP/1.1
-   15    4.024   0.2683   0.3597   0.007   0.034   0.915   1.046   1.046   1.046   15    0    0    0       32871       2191       2191       2192  POST /api/playlist/01G4Z1N9VYX7G23N9875ZQ602F/favorite HTTP/1.1
-   13    3.967   0.3052   0.3996   0.016   0.062   1.011   1.045   1.045   1.045   13    0    0    0       45292       3484       3484       3484  POST /api/playlist/01FPVXF9ERS4TR2QJC93D98V7N/favorite HTTP/1.1
+    1   13.034  13.0340   0.0000  13.034  13.034  13.034  13.034  13.034  13.034    1    0    0    0          29         29         29         29  POST /initialize HTTP/1.1
+  283  773.551   2.7334   1.0141   0.247   2.734   3.925   4.002   4.344   4.488  260    0   23    0     7992636          0      28242      30767  GET /api/popular_playlists HTTP/1.1
+   11    4.361   0.3965   0.6791   0.013   0.024   1.051   2.192   2.192   2.192   11    0    0    0        3830        348        348        349  POST /api/playlist/01G51J19ZNP9HWVFDMJ5G34EN9/favorite HTTP/1.1
+    1    2.128   2.1280   0.0000   2.128   2.128   2.128   2.128   2.128   2.128    1    0    0    0         862        862        862        862  POST /api/playlist/01FXSQKRJGB97V2D9F71V006H9/favorite HTTP/1.1
+    1    2.123   2.1230   0.0000   2.123   2.123   2.123   2.123   2.123   2.123    1    0    0    0        2095       2095       2095       2095  POST /api/playlist/01FA729MW0CGF0KJE0C31YM9XY/favorite HTTP/1.1
+   10    3.711   0.3711   0.6088   0.015   0.200   2.115   2.115   2.115   2.115   10    0    0    0       37541       3754       3754       3755  POST /api/playlist/01FD2WC8JGCK5D981P2R4K1XNR/favorite HTTP/1.1
+    1    1.849   1.8490   0.0000   1.849   1.849   1.849   1.849   1.849   1.849    1    0    0    0        1819       1819       1819       1819  POST /api/playlist/01FYR6N0107PZAXPWS308805ND/favorite HTTP/1.1
+    9    3.986   0.4429   0.5336   0.017   0.024   1.443   1.443   1.443   1.443    9    0    0    0       14346       1594       1594       1594  POST /api/playlist/01FPN3VWBGVFNQ0ATCYZ3HS8ZZ/favorite HTTP/1.1
+    9    3.426   0.3807   0.5311   0.007   0.016   1.435   1.435   1.435   1.435    9    0    0    0       16200       1800       1800       1800  POST /api/playlist/01FCGHFN2RS91YS1JFZKX1V7TM/favorite HTTP/1.1
+    9    3.793   0.4214   0.4409   0.009   0.267   1.432   1.432   1.432   1.432    9    0    0    0       14726       1636       1636       1637  POST /api/playlist/01G2Y3D1Z0A860VC0TT1D09KCC/favorite HTTP/1.1
+   12    1.942   0.1618   0.3647   0.012   0.025   0.176   1.359   1.359   1.359   12    0    0    0       30108       2509       2509       2509  POST /api/playlist/01FPVXF9ERS4TR2QJC93D98V7N/favorite HTTP/1.1
+   14    5.951   0.4251   0.4802   0.011   0.289   1.231   1.359   1.359   1.359   14    0    0    0       14957       1068       1068       1069  POST /api/playlist/01G51J18BNT1K1Y5KJTSMBTBVR/favorite HTTP/1.1
+    8    3.719   0.4649   0.5716   0.017   0.034   1.335   1.335   1.335   1.335    8    0    0    0        4328        541        541        541  POST /api/playlist/01G51J17W6JAPFH2EA87JKYZTF/favorite HTTP/1.1
+    4    1.810   0.4525   0.5230   0.028   0.416   1.318   1.318   1.318   1.318    4    0    0    0       12384       3096       3096       3096  POST /api/playlist/01FBG3AC10KFP4QDQJYPG01VEM/favorite HTTP/1.1
+    6    2.229   0.3715   0.4812   0.024   0.143   1.316   1.316   1.316   1.316    5    0    1    0       11680          0       1946       2336  POST /api/playlist/01G51J17DGY332NRWRM3ATP4MN/favorite HTTP/1.1
+    1    1.315   1.3150   0.0000   1.315   1.315   1.315   1.315   1.315   1.315    1    0    0    0         349        349        349        349  POST /api/playlist/01G1TXBTFR9ZZK4YYEHMMY7V2Q/favorite HTTP/1.1
+   11    4.707   0.4279   0.4836   0.019   0.277   1.240   1.308   1.308   1.308   11    0    0    0       13818       1256       1256       1257  POST /api/playlist/01G51J112A0B0SVHV4B9VGNKTF/favorite HTTP/1.1
+   11    4.613   0.4194   0.4688   0.013   0.111   0.987   1.276   1.276   1.276   11    0    0    0       33365       3033       3033       3034  POST /api/playlist/01G51J12ZM2YHB7F70S6MFJ3R5/favorite HTTP/1.1
+    9    1.572   0.1747   0.3826   0.013   0.031   1.254   1.254   1.254   1.254    9    0    0    0       17280       1920       1920       1920  POST /api/playlist/01G51J17PKANH3M85GQD3AE0HH/favorite HTTP/1.1
+  418   61.974   0.1483   0.1736   0.002   0.094   0.352   0.520   0.825   1.253  416    0    2    0     1383924         55       3310      38295  GET /api/playlists HTTP/1.1
 
 TOP 37 Slow Requests
- 1  13.279  POST /initialize HTTP/1.1
- 2   4.678  GET /api/popular_playlists HTTP/1.1
- 3   4.662  GET /api/popular_playlists HTTP/1.1
- 4   4.627  GET /api/popular_playlists HTTP/1.1
- 5   4.623  GET /api/popular_playlists HTTP/1.1
- 6   4.620  GET /api/popular_playlists HTTP/1.1
- 7   4.598  GET /api/popular_playlists HTTP/1.1
- 8   4.572  GET /api/popular_playlists HTTP/1.1
- 9   4.543  GET /api/popular_playlists HTTP/1.1
-10   4.543  GET /api/popular_playlists HTTP/1.1
-11   4.465  GET /api/popular_playlists HTTP/1.1
-12   4.464  GET /api/popular_playlists HTTP/1.1
-13   4.463  GET /api/popular_playlists HTTP/1.1
-14   4.463  GET /api/popular_playlists HTTP/1.1
-15   4.442  GET /api/popular_playlists HTTP/1.1
-16   4.438  GET /api/popular_playlists HTTP/1.1
-17   4.410  GET /api/popular_playlists HTTP/1.1
-18   4.405  GET /api/popular_playlists HTTP/1.1
-19   4.399  GET /api/popular_playlists HTTP/1.1
-20   4.389  GET /api/popular_playlists HTTP/1.1
-21   4.385  GET /api/popular_playlists HTTP/1.1
-22   4.357  GET /api/popular_playlists HTTP/1.1
-23   4.329  GET /api/popular_playlists HTTP/1.1
-24   4.325  GET /api/popular_playlists HTTP/1.1
-25   4.321  GET /api/popular_playlists HTTP/1.1
-26   4.311  GET /api/popular_playlists HTTP/1.1
-27   4.307  GET /api/popular_playlists HTTP/1.1
-28   4.293  GET /api/popular_playlists HTTP/1.1
-29   4.292  GET /api/popular_playlists HTTP/1.1
-30   4.285  GET /api/popular_playlists HTTP/1.1
-31   4.236  GET /api/popular_playlists HTTP/1.1
-32   4.224  GET /api/popular_playlists HTTP/1.1
-33   4.189  GET /api/popular_playlists HTTP/1.1
-34   4.180  GET /api/popular_playlists HTTP/1.1
-35   4.144  GET /api/popular_playlists HTTP/1.1
-36   4.135  GET /api/popular_playlists HTTP/1.1
-37   4.106  GET /api/popular_playlists HTTP/1.1
+ 1  13.034  POST /initialize HTTP/1.1
+ 2   4.488  GET /api/popular_playlists HTTP/1.1
+ 3   4.420  GET /api/popular_playlists HTTP/1.1
+ 4   4.344  GET /api/popular_playlists HTTP/1.1
+ 5   4.329  GET /api/popular_playlists HTTP/1.1
+ 6   4.276  GET /api/popular_playlists HTTP/1.1
+ 7   4.206  GET /api/popular_playlists HTTP/1.1
+ 8   4.162  GET /api/popular_playlists HTTP/1.1
+ 9   4.134  GET /api/popular_playlists HTTP/1.1
+10   4.106  GET /api/popular_playlists HTTP/1.1
+11   4.090  GET /api/popular_playlists HTTP/1.1
+12   4.049  GET /api/popular_playlists HTTP/1.1
+13   4.029  GET /api/popular_playlists HTTP/1.1
+14   4.028  GET /api/popular_playlists HTTP/1.1
+15   4.010  GET /api/popular_playlists HTTP/1.1
+16   4.002  GET /api/popular_playlists HTTP/1.1
+17   3.992  GET /api/popular_playlists HTTP/1.1
+18   3.991  GET /api/popular_playlists HTTP/1.1
+19   3.989  GET /api/popular_playlists HTTP/1.1
+20   3.975  GET /api/popular_playlists HTTP/1.1
+21   3.973  GET /api/popular_playlists HTTP/1.1
+22   3.971  GET /api/popular_playlists HTTP/1.1
+23   3.968  GET /api/popular_playlists HTTP/1.1
+24   3.967  GET /api/popular_playlists HTTP/1.1
+25   3.963  GET /api/popular_playlists HTTP/1.1
+26   3.959  GET /api/popular_playlists HTTP/1.1
+27   3.947  GET /api/popular_playlists HTTP/1.1
+28   3.935  GET /api/popular_playlists HTTP/1.1
+29   3.934  GET /api/popular_playlists HTTP/1.1
+30   3.925  GET /api/popular_playlists HTTP/1.1
+31   3.907  GET /api/popular_playlists HTTP/1.1
+32   3.902  GET /api/popular_playlists HTTP/1.1
+33   3.896  GET /api/popular_playlists HTTP/1.1
+34   3.891  GET /api/popular_playlists HTTP/1.1
+35   3.884  GET /api/popular_playlists HTTP/1.1
+36   3.881  GET /api/popular_playlists HTTP/1.1
+37   3.876  GET /api/popular_playlists HTTP/1.1

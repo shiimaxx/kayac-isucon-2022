@@ -465,7 +465,7 @@ func getPopularPlaylistSummaries(ctx context.Context, db connOrTx, userAccount s
 	}
 
 	redisConn := pool.Get()
-	ss, err := redis.Strings(redisConn.Do("ZREVRANGE", "fav", 0, -1, "WITHSCORES"))
+	ss, err := redis.Strings(redisConn.Do("ZREVRANGE", "fav", 0, 500, "WITHSCORES"))
 	if err != nil {
 		return nil, fmt.Errorf("redis failed: %w", err)
 	}
