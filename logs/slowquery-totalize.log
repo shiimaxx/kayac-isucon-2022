@@ -1,81 +1,50 @@
 
-# 38.8s user time, 40ms system time, 31.34M rss, 39.29M vsz
-# Current date: Wed Jun  8 11:53:29 2022
+# 40.1s user time, 50ms system time, 31.40M rss, 39.28M vsz
+# Current date: Wed Jun  8 13:20:34 2022
 # Hostname: ip-10-0-0-56
 # Files: /home/isucon/webapp/mysql/logs/mysql-slow.log
-# Overall: 660.30k total, 40 unique, 4.40k QPS, 2.44x concurrency ________
-# Time range: 2022-06-08T11:50:40 to 2022-06-08T11:53:10
+# Overall: 676.22k total, 39 unique, 5.68k QPS, 3.06x concurrency ________
+# Time range: 2022-06-08T13:18:07 to 2022-06-08T13:20:06
 # Attribute          total     min     max     avg     95%  stddev  median
 # ============     ======= ======= ======= ======= ======= ======= =======
-# Exec time           366s     1us      8s   554us     2ms    12ms   144us
-# Lock time             2s       0    25ms     2us     1us    79us     1us
-# Rows sent          1.67M       0 252.74k    2.66    0.99  309.12    0.99
-# Rows examine     109.14M       0  19.76M  173.31   76.28  24.90k    7.70
-# Query size        86.02M       6   1.68k  136.60  284.79   95.03   69.19
+# Exec time           364s     2us      7s   538us     2ms    11ms   138us
+# Lock time             2s       0    29ms     2us     1us    68us     1us
+# Rows sent          1.75M       0 252.74k    2.71    0.99  305.47    0.99
+# Rows examine      78.00M       0  19.76M  120.95   72.65  24.59k    2.90
+# Query size        87.82M       6   1.68k  136.17  284.79   93.19   97.36
 
 # Profile
 # Rank Query ID                     Response time Calls  R/Call V/M   Item
 # ==== ============================ ============= ====== ====== ===== ====
-#    1 0xEC063962A0903583D4BF22B... 73.0522 20.0% 121357 0.0006  0.01 SELECT playlist_favorite
-#    2 0x40BA718A3112C61FB0C2179... 72.0186 19.7% 157304 0.0005  0.00 SELECT playlist user playlist_song
-#    3 0x3B7F9C3BFD4303564EFFC05... 58.7696 16.1%   8205 0.0072  0.00 INSERT playlist_favorite
-#    4 0xD3D79AC2E339745D16FD77E... 29.8240  8.1% 116418 0.0003  0.00 SELECT playlist_favorite
-#    5 0x8AFB70E4EF33ECB86281555... 28.7847  7.9% 103058 0.0003  0.00 SELECT playlist_song
-#    6 0x0C7853719E9897E59B57F2A... 26.0800  7.1%  18302 0.0014  0.01 SELECT playlist_song song artist
-#    7 0xEF4E32253D50FC6205E21CE... 13.6288  3.7%  36629 0.0004  0.00 SELECT playlist
-#    8 0xFE201CF788CDAF0ED135116... 11.4005  3.1%  41141 0.0003  0.00 SELECT user
-#    9 0xFF9A94BDE38FB778640C906... 10.4613  2.9%  23663 0.0004  0.01 SELECT playlist
-#   10 0xBB803527F0B05ED37FAF2BB...  7.8244  2.1%      1 7.8244  0.00 DELETE SELECT playlist_song playlist
-#   11 0x7AB57DAE0FB77B087E0D134...  4.1681  1.1%      1 4.1681  0.00 DELETE SELECT playlist_favorite playlist
-#   12 0xA254C292FAE6619AA8CCE1B...  3.7495  1.0%    457 0.0082  0.00 UPDATE user
-#   13 0x4FFEDD9537D4E9B44DEB7A2...  3.7270  1.0%      1 3.7270  0.00 SELECT playlist_favorite
-#   14 0x0A24D4A57D22B71F538F1AE...  3.5481  1.0%   8202 0.0004  0.00 SELECT song
-#   15 0x3B4267C2E0B52599C84C779...  3.1756  0.9%    884 0.0036  0.01 SELECT playlist user
-# MISC 0xMISC                       15.7927  4.3%  24681 0.0006   0.0 <25 ITEMS>
+#    1 0x40BA718A3112C61FB0C2179... 69.4347 19.1% 151270 0.0005  0.00 SELECT playlist user playlist_song
+#    2 0x3B7F9C3BFD4303564EFFC05... 63.4008 17.4%   8460 0.0075  0.00 INSERT playlist_favorite
+#    3 0xEC063962A0903583D4BF22B... 62.8513 17.2% 136919 0.0005  0.01 SELECT playlist_favorite
+#    4 0xD3D79AC2E339745D16FD77E... 32.7418  9.0% 133380 0.0002  0.00 SELECT playlist_favorite
+#    5 0x0C7853719E9897E59B57F2A... 32.3888  8.9%  20259 0.0016  0.01 SELECT playlist_song song artist
+#    6 0x8AFB70E4EF33ECB86281555... 29.1118  8.0% 116659 0.0002  0.00 SELECT playlist_song
+#    7 0xEF4E32253D50FC6205E21CE... 16.9911  4.7%  40547 0.0004  0.00 SELECT playlist
+#    8 0xFE201CF788CDAF0ED135116...  8.5563  2.3%  31123 0.0003  0.00 SELECT user
+#    9 0xA1D549827369435D2D6B8F3...  7.3837  2.0%    661 0.0112  0.05 SELECT playlist_favorite playlist user
+#   10 0xBB803527F0B05ED37FAF2BB...  6.8701  1.9%      1 6.8701  0.00 DELETE SELECT playlist_song playlist
+#   11 0xA254C292FAE6619AA8CCE1B...  4.2704  1.2%    453 0.0094  0.01 UPDATE user
+#   12 0x7AB57DAE0FB77B087E0D134...  4.1327  1.1%      1 4.1327  0.00 DELETE SELECT playlist_favorite playlist
+#   13 0x4FFEDD9537D4E9B44DEB7A2...  3.9582  1.1%      1 3.9582  0.00 SELECT playlist_favorite
+#   14 0x3B4267C2E0B52599C84C779...  3.3171  0.9%    864 0.0038  0.01 SELECT playlist user
+#   15 0x0A24D4A57D22B71F538F1AE...  3.1849  0.9%   8777 0.0004  0.00 SELECT song
+# MISC 0xMISC                       15.8283  4.3%  26842 0.0006   0.0 <24 ITEMS>
 
-# Query 1: 1.78k QPS, 1.07x concurrency, ID 0xEC063962A0903583D4BF22B4F6620A35 at byte 129147796
-# This item is included in the report because it matches --limit.
-# Scores: V/M = 0.01
-# Time range: 2022-06-08T11:51:02 to 2022-06-08T11:52:10
-# Attribute    pct   total     min     max     avg     95%  stddev  median
-# ============ === ======= ======= ======= ======= ======= ======= =======
-# Count         18  121357
-# Exec time     19     73s    59us   107ms   601us     2ms     2ms   125us
-# Lock time     16   295ms       0    11ms     2us     1us    55us     1us
-# Rows sent      6 118.51k       1       1       1       1       0       1
-# Rows examine  64  70.63M       0  14.67k  610.28   1.78k   2.42k   10.84
-# Query size     9   8.32M      69      72   71.91   69.19    0.04   69.19
-# String:
-# Databases    isucon_listen80
-# Hosts        webapp-app-1.webapp_default
-# Users        isucon
-# Query_time distribution
-#   1us
-#  10us  ########
-# 100us  ################################################################
-#   1ms  #######
-#  10ms  #
-# 100ms  #
-#    1s
-#  10s+
-# Tables
-#    SHOW TABLE STATUS FROM `isucon_listen80` LIKE 'playlist_favorite'\G
-#    SHOW CREATE TABLE `isucon_listen80`.`playlist_favorite`\G
-# EXPLAIN /*!50100 PARTITIONS*/
-SELECT COUNT(*) AS cnt FROM playlist_favorite where playlist_id = 338454\G
-
-# Query 2: 2.31k QPS, 1.06x concurrency, ID 0x40BA718A3112C61FB0C217930D97E29F at byte 232515801
+# Query 1: 2.22k QPS, 1.02x concurrency, ID 0x40BA718A3112C61FB0C217930D97E29F at byte 221124025
 # This item is included in the report because it matches --limit.
 # Scores: V/M = 0.00
-# Time range: 2022-06-08T11:51:02 to 2022-06-08T11:52:10
+# Time range: 2022-06-08T13:18:27 to 2022-06-08T13:19:35
 # Attribute    pct   total     min     max     avg     95%  stddev  median
 # ============ === ======= ======= ======= ======= ======= ======= =======
-# Count         23  157304
-# Exec time     19     72s   104us    59ms   457us     1ms     1ms   185us
-# Lock time     22   397ms       0     6ms     2us     1us    42us     1us
-# Rows sent      8 153.62k       1       1       1       1       0       1
-# Rows examine   5   6.48M       0      79   43.17   72.65   22.54   44.60
-# Query size    49  42.86M     282     286  285.71  284.79       2  284.79
+# Count         22  151270
+# Exec time     19     69s   106us    41ms   459us     2ms   981us   185us
+# Lock time     21   362ms       0    11ms     2us     1us    46us     1us
+# Rows sent      8 147.72k       1       1       1       1       0       1
+# Rows examine   7   6.23M       0      79   43.18   72.65   22.54   46.83
+# Query size    46  41.22M     282     286  285.71  284.79       2  284.79
 # String:
 # Databases    isucon_listen80
 # Hosts        webapp-app-1.webapp_default
@@ -84,7 +53,7 @@ SELECT COUNT(*) AS cnt FROM playlist_favorite where playlist_id = 338454\G
 #   1us
 #  10us
 # 100us  ################################################################
-#   1ms  #####
+#   1ms  ######
 #  10ms  #
 # 100ms
 #    1s
@@ -97,20 +66,20 @@ SELECT COUNT(*) AS cnt FROM playlist_favorite where playlist_id = 338454\G
 #    SHOW TABLE STATUS FROM `isucon_listen80` LIKE 'playlist_song'\G
 #    SHOW CREATE TABLE `isucon_listen80`.`playlist_song`\G
 # EXPLAIN /*!50100 PARTITIONS*/
-SELECT p.*, u.display_name AS 'user.display_name', u.account AS `user.account`, u.is_ban AS `user.is_ban`, COUNT(ps.playlist_id) AS song_count FROM playlist AS p LEFT JOIN user AS u ON p.user_account = u.account LEFT JOIN playlist_song AS ps ON p.id = ps.playlist_id WHERE `id` = 123468\G
+SELECT p.*, u.display_name AS 'user.display_name', u.account AS `user.account`, u.is_ban AS `user.is_ban`, COUNT(ps.playlist_id) AS song_count FROM playlist AS p LEFT JOIN user AS u ON p.user_account = u.account LEFT JOIN playlist_song AS ps ON p.id = ps.playlist_id WHERE `id` = 80348\G
 
-# Query 3: 120.66 QPS, 0.86x concurrency, ID 0x3B7F9C3BFD4303564EFFC05B3903B6C4 at byte 117413876
+# Query 2: 124.41 QPS, 0.93x concurrency, ID 0x3B7F9C3BFD4303564EFFC05B3903B6C4 at byte 145480706
 # This item is included in the report because it matches --limit.
 # Scores: V/M = 0.00
-# Time range: 2022-06-08T11:51:02 to 2022-06-08T11:52:10
+# Time range: 2022-06-08T13:18:27 to 2022-06-08T13:19:35
 # Attribute    pct   total     min     max     avg     95%  stddev  median
 # ============ === ======= ======= ======= ======= ======= ======= =======
-# Count          1    8205
-# Exec time     16     59s     2ms    74ms     7ms    14ms     4ms     6ms
-# Lock time      1    18ms       0   947us     2us     1us    19us     1us
+# Count          1    8460
+# Exec time     17     63s     2ms    78ms     7ms    15ms     5ms     6ms
+# Lock time      1    19ms       0     3ms     2us     1us    29us     1us
 # Rows sent      0       0       0       0       0       0       0       0
 # Rows examine   0       0       0       0       0       0       0       0
-# Query size     1   1.20M     143     168  153.41  158.58    4.48  151.03
+# Query size     1   1.25M     144     168  154.48  158.58    4.34  151.03
 # String:
 # Databases    isucon_listen80
 # Hosts        webapp-app-1.webapp_default
@@ -120,27 +89,58 @@ SELECT p.*, u.display_name AS 'user.display_name', u.account AS `user.account`, 
 #  10us
 # 100us
 #   1ms  ################################################################
-#  10ms  ############
+#  10ms  #############
 # 100ms
 #    1s
 #  10s+
 # Tables
 #    SHOW TABLE STATUS FROM `isucon_listen80` LIKE 'playlist_favorite'\G
 #    SHOW CREATE TABLE `isucon_listen80`.`playlist_favorite`\G
-INSERT INTO playlist_favorite (`playlist_id`, `favorite_user_account`, `created_at`) VALUES (298588, 'gettechnologycarry', '2022-06-08 11:51:41.557079947')\G
+INSERT INTO playlist_favorite (`playlist_id`, `favorite_user_account`, `created_at`) VALUES (250017, 'amountforceitself', '2022-06-08 13:19:12.151704638')\G
 
-# Query 4: 1.71k QPS, 0.44x concurrency, ID 0xD3D79AC2E339745D16FD77E13E6AC90F at byte 229151115
+# Query 3: 2.01k QPS, 0.92x concurrency, ID 0xEC063962A0903583D4BF22B4F6620A35 at byte 213547167
 # This item is included in the report because it matches --limit.
-# Scores: V/M = 0.00
-# Time range: 2022-06-08T11:51:02 to 2022-06-08T11:52:10
+# Scores: V/M = 0.01
+# Time range: 2022-06-08T13:18:27 to 2022-06-08T13:19:35
 # Attribute    pct   total     min     max     avg     95%  stddev  median
 # ============ === ======= ======= ======= ======= ======= ======= =======
-# Count         17  116418
-# Exec time      8     30s    44us    53ms   256us   761us   872us    98us
-# Lock time     16   299ms       0    12ms     2us     1us    77us     1us
-# Rows sent      6 113.69k       1       1       1       1       0       1
-# Rows examine   0  30.09k       0       1    0.26    0.99    0.44       0
-# Query size    15  13.14M     103     134  118.37  124.25    5.62  118.34
+# Count         20  136919
+# Exec time     17     63s    60us   147ms   459us     1ms     2ms   119us
+# Lock time     19   320ms       0     8ms     2us     1us    47us     1us
+# Rows sent      7 133.71k       1       1       1       1       0       1
+# Rows examine  51  39.83M       0  14.67k  305.06   1.53k   1.63k    6.98
+# Query size    10   9.25M      67      72   70.87   69.19    1.35   69.19
+# String:
+# Databases    isucon_listen80
+# Hosts        webapp-app-1.webapp_default
+# Users        isucon
+# Query_time distribution
+#   1us
+#  10us  ############
+# 100us  ################################################################
+#   1ms  #####
+#  10ms  #
+# 100ms  #
+#    1s
+#  10s+
+# Tables
+#    SHOW TABLE STATUS FROM `isucon_listen80` LIKE 'playlist_favorite'\G
+#    SHOW CREATE TABLE `isucon_listen80`.`playlist_favorite`\G
+# EXPLAIN /*!50100 PARTITIONS*/
+SELECT COUNT(*) AS cnt FROM playlist_favorite where playlist_id = 30044\G
+
+# Query 4: 1.96k QPS, 0.48x concurrency, ID 0xD3D79AC2E339745D16FD77E13E6AC90F at byte 162372857
+# This item is included in the report because it matches --limit.
+# Scores: V/M = 0.00
+# Time range: 2022-06-08T13:18:27 to 2022-06-08T13:19:35
+# Attribute    pct   total     min     max     avg     95%  stddev  median
+# ============ === ======= ======= ======= ======= ======= ======= =======
+# Count         19  133380
+# Exec time      8     33s    44us    51ms   245us   725us   795us    93us
+# Lock time     16   281ms       0     9ms     2us     1us    41us     1us
+# Rows sent      7 130.25k       1       1       1       1       0       1
+# Rows examine   0  20.43k       0       1    0.16    0.99    0.36       0
+# Query size    17  14.98M     103     134  117.80  124.25    5.57  112.70
 # String:
 # Databases    isucon_listen80
 # Hosts        webapp-app-1.webapp_default
@@ -148,7 +148,7 @@ INSERT INTO playlist_favorite (`playlist_id`, `favorite_user_account`, `created_
 # Query_time distribution
 #   1us
 #  10us  ################################################################
-# 100us  ###########################################################
+# 100us  ###################################################
 #   1ms  ####
 #  10ms  #
 # 100ms
@@ -158,51 +158,20 @@ INSERT INTO playlist_favorite (`playlist_id`, `favorite_user_account`, `created_
 #    SHOW TABLE STATUS FROM `isucon_listen80` LIKE 'playlist_favorite'\G
 #    SHOW CREATE TABLE `isucon_listen80`.`playlist_favorite`\G
 # EXPLAIN /*!50100 PARTITIONS*/
-SELECT COUNT(*) AS cnt FROM playlist_favorite where favorite_user_account = 'bigthuslist' AND playlist_id = 113489\G
+SELECT COUNT(*) AS cnt FROM playlist_favorite where favorite_user_account = 'entirephonecompare' AND playlist_id = 79830\G
 
-# Query 5: 1.52k QPS, 0.42x concurrency, ID 0x8AFB70E4EF33ECB862815558CB07356A at byte 106660480
-# This item is included in the report because it matches --limit.
-# Scores: V/M = 0.00
-# Time range: 2022-06-08T11:51:02 to 2022-06-08T11:52:10
-# Attribute    pct   total     min     max     avg     95%  stddev  median
-# ============ === ======= ======= ======= ======= ======= ======= =======
-# Count         15  103058
-# Exec time      7     29s    64us    51ms   279us   799us   755us   125us
-# Lock time     12   220ms       0     8ms     2us     1us    40us     1us
-# Rows sent      5 100.64k       1       1       1       1       0       1
-# Rows examine   3   3.79M       0      79   38.56   72.65   22.52   34.95
-# Query size     7   6.68M      65      68   67.92   65.89    0.04   65.89
-# String:
-# Databases    isucon_listen80
-# Hosts        webapp-app-1.webapp_default
-# Users        isucon
-# Query_time distribution
-#   1us
-#  10us  #####
-# 100us  ################################################################
-#   1ms  ##
-#  10ms  #
-# 100ms
-#    1s
-#  10s+
-# Tables
-#    SHOW TABLE STATUS FROM `isucon_listen80` LIKE 'playlist_song'\G
-#    SHOW CREATE TABLE `isucon_listen80`.`playlist_song`\G
-# EXPLAIN /*!50100 PARTITIONS*/
-SELECT COUNT(*) AS cnt FROM playlist_song where playlist_id = 364203\G
-
-# Query 6: 269.15 QPS, 0.38x concurrency, ID 0x0C7853719E9897E59B57F2AB15A3EBE3 at byte 129068060
+# Query 5: 297.93 QPS, 0.48x concurrency, ID 0x0C7853719E9897E59B57F2AB15A3EBE3 at byte 161890018
 # This item is included in the report because it matches --limit.
 # Scores: V/M = 0.01
-# Time range: 2022-06-08T11:51:02 to 2022-06-08T11:52:10
+# Time range: 2022-06-08T13:18:27 to 2022-06-08T13:19:35
 # Attribute    pct   total     min     max     avg     95%  stddev  median
 # ============ === ======= ======= ======= ======= ======= ======= =======
-# Count          2   18302
-# Exec time      7     26s   103us    79ms     1ms     5ms     3ms   467us
-# Lock time      3    57ms       0     2ms     3us     1us    33us     1us
-# Rows sent     41 708.75k       0      79   39.65   72.65   22.81   38.53
-# Rows examine   1   2.08M       0     237  118.96  223.14   68.46  112.70
-# Query size     5   4.97M     283     285  284.85  284.79       1  284.79
+# Count          2   20259
+# Exec time      8     32s   113us   100ms     2ms     7ms     4ms   490us
+# Lock time      3    64ms       0     3ms     3us     1us    41us     1us
+# Rows sent     44 804.32k       0      79   40.65   72.65   22.66   40.45
+# Rows examine   3   2.36M       0     237  121.96  212.52   67.78  124.25
+# Query size     6   5.50M     281     285  284.84  284.79       2  284.79
 # String:
 # Databases    isucon_listen80
 # Hosts        webapp-app-1.webapp_default
@@ -211,9 +180,9 @@ SELECT COUNT(*) AS cnt FROM playlist_song where playlist_id = 364203\G
 #   1us
 #  10us
 # 100us  ################################################################
-#   1ms  ####################
+#   1ms  ######################
 #  10ms  ##
-# 100ms
+# 100ms  #
 #    1s
 #  10s+
 # Tables
@@ -224,20 +193,51 @@ SELECT COUNT(*) AS cnt FROM playlist_song where playlist_id = 364203\G
 #    SHOW TABLE STATUS FROM `isucon_listen80` LIKE 'artist'\G
 #    SHOW CREATE TABLE `isucon_listen80`.`artist`\G
 # EXPLAIN /*!50100 PARTITIONS*/
-SELECT s.ulid `song.ulid`, s.title `song.title`, a.name `artist.name`, s.album `song.album`, s.track_number `song.track_number`, s.is_public `song.is_public` FROM playlist_song ps LEFT JOIN song s ON ps.song_id = s.id LEFT JOIN artist a ON s.artist_id = a.id WHERE playlist_id = 306067\G
+SELECT s.ulid `song.ulid`, s.title `song.title`, a.name `artist.name`, s.album `song.album`, s.track_number `song.track_number`, s.is_public `song.is_public` FROM playlist_song ps LEFT JOIN song s ON ps.song_id = s.id LEFT JOIN artist a ON s.artist_id = a.id WHERE playlist_id = 233434\G
 
-# Query 7: 538.66 QPS, 0.20x concurrency, ID 0xEF4E32253D50FC6205E21CEE5B40F6F1 at byte 196144711
+# Query 6: 1.72k QPS, 0.43x concurrency, ID 0x8AFB70E4EF33ECB862815558CB07356A at byte 221075865
 # This item is included in the report because it matches --limit.
 # Scores: V/M = 0.00
-# Time range: 2022-06-08T11:51:02 to 2022-06-08T11:52:10
+# Time range: 2022-06-08T13:18:27 to 2022-06-08T13:19:35
 # Attribute    pct   total     min     max     avg     95%  stddev  median
 # ============ === ======= ======= ======= ======= ======= ======= =======
-# Count          5   36629
-# Exec time      3     14s    76us    52ms   372us     1ms     1ms   138us
-# Lock time      4    77ms       0     2ms     2us     1us    28us     1us
-# Rows sent      2  35.77k       0       1    1.00    0.99    0.01    0.99
-# Rows examine   0  35.77k       0       1    1.00    0.99    0.01    0.99
-# Query size     2   2.31M      66      66      66      66       0      66
+# Count         17  116659
+# Exec time      7     29s    58us    34ms   249us   725us   581us   119us
+# Lock time     14   239ms       0     5ms     2us     1us    32us     1us
+# Rows sent      6 113.92k       1       1       1       1       0       1
+# Rows examine   4   3.34M       0      79   30.05   72.65   25.70   26.08
+# Query size     8   7.42M      63      68   66.71   65.89    1.36   65.89
+# String:
+# Databases    isucon_listen80
+# Hosts        webapp-app-1.webapp_default
+# Users        isucon
+# Query_time distribution
+#   1us
+#  10us  #########
+# 100us  ################################################################
+#   1ms  ##
+#  10ms  #
+# 100ms
+#    1s
+#  10s+
+# Tables
+#    SHOW TABLE STATUS FROM `isucon_listen80` LIKE 'playlist_song'\G
+#    SHOW CREATE TABLE `isucon_listen80`.`playlist_song`\G
+# EXPLAIN /*!50100 PARTITIONS*/
+SELECT COUNT(*) AS cnt FROM playlist_song where playlist_id = 364466\G
+
+# Query 7: 596.28 QPS, 0.25x concurrency, ID 0xEF4E32253D50FC6205E21CEE5B40F6F1 at byte 213307674
+# This item is included in the report because it matches --limit.
+# Scores: V/M = 0.00
+# Time range: 2022-06-08T13:18:27 to 2022-06-08T13:19:35
+# Attribute    pct   total     min     max     avg     95%  stddev  median
+# ============ === ======= ======= ======= ======= ======= ======= =======
+# Count          5   40547
+# Exec time      4     17s    71us    66ms   419us     1ms     1ms   138us
+# Lock time      5   100ms       0     3ms     2us     1us    34us     1us
+# Rows sent      2  39.60k       0       1    1.00    0.99    0.00    0.99
+# Rows examine   0  39.60k       0       1    1.00    0.99    0.00    0.99
+# Query size     2   2.55M      66      66      66      66       0      66
 # String:
 # Databases    isucon_listen80
 # Hosts        webapp-app-1.webapp_default
@@ -255,27 +255,27 @@ SELECT s.ulid `song.ulid`, s.title `song.title`, a.name `artist.name`, s.album `
 #    SHOW TABLE STATUS FROM `isucon_listen80` LIKE 'playlist'\G
 #    SHOW CREATE TABLE `isucon_listen80`.`playlist`\G
 # EXPLAIN /*!50100 PARTITIONS*/
-SELECT * FROM playlist WHERE `ulid` = '01G51JFW37S0BTJ8MASPV1MJBD'\G
+SELECT * FROM playlist WHERE `ulid` = '01FXCXWH085A6SEYDJ09S6V0AV'\G
 
-# Query 8: 605.01 QPS, 0.17x concurrency, ID 0xFE201CF788CDAF0ED13511641E92D414 at byte 194448479
+# Query 8: 457.69 QPS, 0.13x concurrency, ID 0xFE201CF788CDAF0ED13511641E92D414 at byte 124754280
 # This item is included in the report because it matches --limit.
 # Scores: V/M = 0.00
-# Time range: 2022-06-08T11:51:02 to 2022-06-08T11:52:10
+# Time range: 2022-06-08T13:18:27 to 2022-06-08T13:19:35
 # Attribute    pct   total     min     max     avg     95%  stddev  median
 # ============ === ======= ======= ======= ======= ======= ======= =======
-# Count          6   41141
-# Exec time      3     11s    49us    36ms   277us   839us   856us    98us
-# Lock time      6   111ms       0     6ms     2us     1us    60us     1us
-# Rows sent      2  40.18k       1       1       1       1       0       1
-# Rows examine   0  40.18k       1       1       1       1       0       1
-# Query size     2   2.18M      47      70   55.48   59.77    3.75   54.21
+# Count          4   31123
+# Exec time      2      9s    53us    33ms   274us   839us   790us    98us
+# Lock time      4    77ms       0     8ms     2us     1us    55us     1us
+# Rows sent      1  30.39k       1       1       1       1       0       1
+# Rows examine   0  30.39k       1       1       1       1       0       1
+# Query size     1   1.65M      46      70   55.67   59.77    3.84   54.21
 # String:
 # Databases    isucon_listen80
 # Hosts        webapp-app-1.webapp_default
 # Users        isucon
 # Query_time distribution
 #   1us
-#  10us  ####################################################
+#  10us  ##################################################
 # 100us  ################################################################
 #   1ms  #####
 #  10ms  #
@@ -286,50 +286,54 @@ SELECT * FROM playlist WHERE `ulid` = '01G51JFW37S0BTJ8MASPV1MJBD'\G
 #    SHOW TABLE STATUS FROM `isucon_listen80` LIKE 'user'\G
 #    SHOW CREATE TABLE `isucon_listen80`.`user`\G
 # EXPLAIN /*!50100 PARTITIONS*/
-SELECT * FROM user WHERE `account` = 'northbeyondahead'\G
+SELECT * FROM user WHERE `account` = 'typeactionbase'\G
 
-# Query 9: 347.99 QPS, 0.15x concurrency, ID 0xFF9A94BDE38FB778640C90666343546B at byte 129149492
+# Query 9: 9.72 QPS, 0.11x concurrency, ID 0xA1D549827369435D2D6B8F3232875C93 at byte 213508560
 # This item is included in the report because it matches --limit.
-# Scores: V/M = 0.01
-# Time range: 2022-06-08T11:51:02 to 2022-06-08T11:52:10
+# Scores: V/M = 0.05
+# Time range: 2022-06-08T13:18:27 to 2022-06-08T13:19:35
 # Attribute    pct   total     min     max     avg     95%  stddev  median
 # ============ === ======= ======= ======= ======= ======= ======= =======
-# Count          3   23663
-# Exec time      2     10s    49us    63ms   442us     2ms     2ms   103us
-# Lock time      5    95ms       0    15ms     4us     1us   142us     1us
-# Rows sent      1  23.11k       1       1       1       1       0       1
-# Rows examine   0  23.11k       1       1       1       1       0       1
-# Query size     1 963.96k      38      42   41.71   40.45    0.40   40.45
+# Count          0     661
+# Exec time      2      7s   239us   228ms    11ms    44ms    23ms     4ms
+# Lock time      0     2ms     1us   234us     2us     1us     9us     1us
+# Rows sent      1  28.50k       0      70   44.14   54.21    8.08   42.48
+# Rows examine   0 173.22k       0     419  268.35  313.99   42.23  258.32
+# Query size     0 310.73k     473     496  481.38  487.09    5.19  463.90
 # String:
 # Databases    isucon_listen80
 # Hosts        webapp-app-1.webapp_default
 # Users        isucon
 # Query_time distribution
 #   1us
-#  10us  ###############################################
-# 100us  ################################################################
-#   1ms  ########
-#  10ms  #
-# 100ms
+#  10us
+# 100us  #
+#   1ms  ################################################################
+#  10ms  ###############
+# 100ms  #
 #    1s
 #  10s+
 # Tables
+#    SHOW TABLE STATUS FROM `isucon_listen80` LIKE 'playlist_favorite'\G
+#    SHOW CREATE TABLE `isucon_listen80`.`playlist_favorite`\G
 #    SHOW TABLE STATUS FROM `isucon_listen80` LIKE 'playlist'\G
 #    SHOW CREATE TABLE `isucon_listen80`.`playlist`\G
+#    SHOW TABLE STATUS FROM `isucon_listen80` LIKE 'user'\G
+#    SHOW CREATE TABLE `isucon_listen80`.`user`\G
 # EXPLAIN /*!50100 PARTITIONS*/
-SELECT * FROM playlist WHERE `id` = 263866\G
+SELECT p.ulid AS `playlist.ulid`, p.name AS `playlist.name`, p.is_public AS `playlist.is_public`, p.created_at AS `playlist.created_at`, p.updated_at AS `playlist.updated_at`, u.display_name AS `user.display_name`, u.account AS `user.account` FROM playlist_favorite pf LEFT JOIN playlist p ON pf.playlist_id = p.id LEFT JOIN user u ON p.user_account = u.account WHERE favorite_user_account = 'callteachbelieve' AND p.is_public = true AND u.is_ban = false ORDER BY p.created_at DESC\G
 
 # Query 10: 0 QPS, 0x concurrency, ID 0xBB803527F0B05ED37FAF2BBD29AD2CB4 at byte 2342
 # This item is included in the report because it matches --limit.
 # Scores: V/M = 0.00
-# Time range: all events occurred at 2022-06-08T11:50:53
+# Time range: all events occurred at 2022-06-08T13:18:18
 # Attribute    pct   total     min     max     avg     95%  stddev  median
 # ============ === ======= ======= ======= ======= ======= ======= =======
 # Count          0       1
-# Exec time      2      8s      8s      8s      8s      8s       0      8s
-# Lock time      0     9us     9us     9us     9us     9us       0     9us
+# Exec time      1      7s      7s      7s      7s      7s       0      7s
+# Lock time      0     6us     6us     6us     6us     6us       0     6us
 # Rows sent      0       0       0       0       0       0       0       0
-# Rows examine  18  19.76M  19.76M  19.76M  19.76M  19.76M       0  19.76M
+# Rows examine  25  19.76M  19.76M  19.76M  19.76M  19.76M       0  19.76M
 # Query size     0      76      76      76      76      76       0      76
 # String:
 # Databases    isucon_listen80
@@ -354,17 +358,50 @@ DELETE FROM playlist_song WHERE playlist_id NOT IN (SELECT id FROM playlist)\G
 # EXPLAIN /*!50100 PARTITIONS*/
 select * from  playlist_song WHERE playlist_id NOT IN (SELECT id FROM playlist)\G
 
-# Query 11: 0 QPS, 0x concurrency, ID 0x7AB57DAE0FB77B087E0D1340C39A97AD at byte 2646
+# Query 11: 6.76 QPS, 0.06x concurrency, ID 0xA254C292FAE6619AA8CCE1B27E2380C8 at byte 176903205
+# This item is included in the report because it matches --limit.
+# Scores: V/M = 0.01
+# Time range: 2022-06-08T13:18:27 to 2022-06-08T13:19:34
+# Attribute    pct   total     min     max     avg     95%  stddev  median
+# ============ === ======= ======= ======= ======= ======= ======= =======
+# Count          0     453
+# Exec time      1      4s     3ms    62ms     9ms    17ms     9ms     7ms
+# Lock time      0   644us       0    84us     1us     1us     4us     1us
+# Rows sent      0       0       0       0       0       0       0       0
+# Rows examine   0     453       1       1       1       1       0       1
+# Query size     0  44.70k      92     115  101.04  107.34    4.05   97.36
+# String:
+# Databases    isucon_listen80
+# Hosts        webapp-app-1.webapp_default
+# Users        isucon
+# Query_time distribution
+#   1us
+#  10us
+# 100us
+#   1ms  ################################################################
+#  10ms  ########################
+# 100ms
+#    1s
+#  10s+
+# Tables
+#    SHOW TABLE STATUS FROM `isucon_listen80` LIKE 'user'\G
+#    SHOW CREATE TABLE `isucon_listen80`.`user`\G
+UPDATE user SET last_logined_at = '2022-06-08 13:19:19.831269666' WHERE account = 'environmentinvestmentcentral'\G
+# Converted for EXPLAIN
+# EXPLAIN /*!50100 PARTITIONS*/
+select  last_logined_at = '2022-06-08 13:19:19.831269666' from user where  account = 'environmentinvestmentcentral'\G
+
+# Query 12: 0 QPS, 0x concurrency, ID 0x7AB57DAE0FB77B087E0D1340C39A97AD at byte 2646
 # This item is included in the report because it matches --limit.
 # Scores: V/M = 0.00
-# Time range: all events occurred at 2022-06-08T11:50:57
+# Time range: all events occurred at 2022-06-08T13:18:22
 # Attribute    pct   total     min     max     avg     95%  stddev  median
 # ============ === ======= ======= ======= ======= ======= ======= =======
 # Count          0       1
 # Exec time      1      4s      4s      4s      4s      4s       0      4s
 # Lock time      0    11us    11us    11us    11us    11us       0    11us
 # Rows sent      0       0       0       0       0       0       0       0
-# Rows examine   2   2.75M   2.75M   2.75M   2.75M   2.75M       0   2.75M
+# Rows examine   3   2.75M   2.75M   2.75M   2.75M   2.75M       0   2.75M
 # Query size     0     122     122     122     122     122       0     122
 # String:
 # Databases    isucon_listen80
@@ -389,50 +426,17 @@ DELETE FROM playlist_favorite WHERE playlist_id NOT IN (SELECT id FROM playlist)
 # EXPLAIN /*!50100 PARTITIONS*/
 select * from  playlist_favorite WHERE playlist_id NOT IN (SELECT id FROM playlist) OR '2022-05-13 09:00:00.000' < created_at\G
 
-# Query 12: 6.72 QPS, 0.06x concurrency, ID 0xA254C292FAE6619AA8CCE1B27E2380C8 at byte 166995420
-# This item is included in the report because it matches --limit.
-# Scores: V/M = 0.00
-# Time range: 2022-06-08T11:51:02 to 2022-06-08T11:52:10
-# Attribute    pct   total     min     max     avg     95%  stddev  median
-# ============ === ======= ======= ======= ======= ======= ======= =======
-# Count          0     457
-# Exec time      1      4s     2ms    29ms     8ms    15ms     4ms     7ms
-# Lock time      0   541us       0    16us     1us     1us       0     1us
-# Rows sent      0       0       0       0       0       0       0       0
-# Rows examine   0     457       1       1       1       1       0       1
-# Query size     0  44.89k      91     115  100.59  102.22    3.95   97.36
-# String:
-# Databases    isucon_listen80
-# Hosts        webapp-app-1.webapp_default
-# Users        isucon
-# Query_time distribution
-#   1us
-#  10us
-# 100us
-#   1ms  ################################################################
-#  10ms  ########################
-# 100ms
-#    1s
-#  10s+
-# Tables
-#    SHOW TABLE STATUS FROM `isucon_listen80` LIKE 'user'\G
-#    SHOW CREATE TABLE `isucon_listen80`.`user`\G
-UPDATE user SET last_logined_at = '2022-06-08 11:51:53.740828613' WHERE account = 'tripdovarious'\G
-# Converted for EXPLAIN
-# EXPLAIN /*!50100 PARTITIONS*/
-select  last_logined_at = '2022-06-08 11:51:53.740828613' from user where  account = 'tripdovarious'\G
-
 # Query 13: 0 QPS, 0x concurrency, ID 0x4FFEDD9537D4E9B44DEB7A24247FE1ED at byte 2995
 # This item is included in the report because it matches --limit.
 # Scores: V/M = 0.00
-# Time range: all events occurred at 2022-06-08T11:51:01
+# Time range: all events occurred at 2022-06-08T13:18:26
 # Attribute    pct   total     min     max     avg     95%  stddev  median
 # ============ === ======= ======= ======= ======= ======= ======= =======
 # Count          0       1
 # Exec time      1      4s      4s      4s      4s      4s       0      4s
-# Lock time      0     2us     2us     2us     2us     2us       0     2us
+# Lock time      0     1us     1us     1us     1us     1us       0     1us
 # Rows sent     14 252.74k 252.74k 252.74k 252.74k 252.74k       0 252.74k
-# Rows examine   2   2.99M   2.99M   2.99M   2.99M   2.99M       0   2.99M
+# Rows examine   3   2.99M   2.99M   2.99M   2.99M   2.99M       0   2.99M
 # Query size     0     113     113     113     113     113       0     113
 # String:
 # Databases    isucon_listen80
@@ -453,18 +457,51 @@ select  last_logined_at = '2022-06-08 11:51:53.740828613' from user where  accou
 # EXPLAIN /*!50100 PARTITIONS*/
 SELECT playlist_id, count(*) AS favorite_count FROM playlist_favorite GROUP BY playlist_id ORDER BY count(*) DESC\G
 
-# Query 14: 120.62 QPS, 0.05x concurrency, ID 0x0A24D4A57D22B71F538F1AE200CFCE54 at byte 196105774
+# Query 14: 12.71 QPS, 0.05x concurrency, ID 0x3B4267C2E0B52599C84C77950B3BD9BF at byte 200809844
 # This item is included in the report because it matches --limit.
-# Scores: V/M = 0.00
-# Time range: 2022-06-08T11:51:02 to 2022-06-08T11:52:10
+# Scores: V/M = 0.01
+# Time range: 2022-06-08T13:18:27 to 2022-06-08T13:19:35
 # Attribute    pct   total     min     max     avg     95%  stddev  median
 # ============ === ======= ======= ======= ======= ======= ======= =======
-# Count          1    8202
-# Exec time      0      4s    82us    39ms   432us     1ms     1ms   138us
-# Lock time      1    19ms       0     2ms     2us     1us    32us     1us
-# Rows sent      0   8.01k       1       1       1       1       0       1
-# Rows examine   0   8.01k       1       1       1       1       0       1
-# Query size     0 496.61k      62      62      62      62       0      62
+# Count          0     864
+# Exec time      0      3s   600us    56ms     4ms    12ms     5ms     2ms
+# Lock time      0     2ms       0   332us     2us     1us    12us     1us
+# Rows sent      4  84.38k     100     100     100     100       0     100
+# Rows examine   0 171.60k     200     214  203.38  202.40    4.77  192.76
+# Query size     0 313.88k     372     372     372     372       0     372
+# String:
+# Databases    isucon_listen80
+# Hosts        webapp-app-1.webapp_default
+# Users        isucon
+# Query_time distribution
+#   1us
+#  10us
+# 100us  #######
+#   1ms  ################################################################
+#  10ms  ######
+# 100ms
+#    1s
+#  10s+
+# Tables
+#    SHOW TABLE STATUS FROM `isucon_listen80` LIKE 'playlist'\G
+#    SHOW CREATE TABLE `isucon_listen80`.`playlist`\G
+#    SHOW TABLE STATUS FROM `isucon_listen80` LIKE 'user'\G
+#    SHOW CREATE TABLE `isucon_listen80`.`user`\G
+# EXPLAIN /*!50100 PARTITIONS*/
+SELECT p.*, u.account AS 'user.account', u.display_name AS 'user.display_name', u.password_hash AS 'user.password_hash', u.is_ban AS 'user.is_ban', u.created_at AS 'user.created_at', u.last_logined_at AS 'user.last_logined_at' FROM playlist as p INNER JOIN user as u on p.user_account = u.account where p.is_public = 1 and u.is_ban = 0 ORDER BY p.created_at DESC LIMIT 100\G
+
+# Query 15: 132.98 QPS, 0.05x concurrency, ID 0x0A24D4A57D22B71F538F1AE200CFCE54 at byte 221069663
+# This item is included in the report because it matches --limit.
+# Scores: V/M = 0.00
+# Time range: 2022-06-08T13:18:29 to 2022-06-08T13:19:35
+# Attribute    pct   total     min     max     avg     95%  stddev  median
+# ============ === ======= ======= ======= ======= ======= ======= =======
+# Count          1    8777
+# Exec time      0      3s    76us    36ms   362us     1ms   934us   131us
+# Lock time      1    18ms       0     2ms     2us     1us    25us     1us
+# Rows sent      0   8.57k       1       1       1       1       0       1
+# Rows examine   0   8.57k       1       1       1       1       0       1
+# Query size     0 531.42k      62      62      62      62       0      62
 # String:
 # Databases    isucon_listen80
 # Hosts        webapp-app-1.webapp_default
@@ -482,37 +519,4 @@ SELECT playlist_id, count(*) AS favorite_count FROM playlist_favorite GROUP BY p
 #    SHOW TABLE STATUS FROM `isucon_listen80` LIKE 'song'\G
 #    SHOW CREATE TABLE `isucon_listen80`.`song`\G
 # EXPLAIN /*!50100 PARTITIONS*/
-SELECT * FROM song WHERE `ulid` = '01G2Y874V0F7HY52P6427ZPTHH'\G
-
-# Query 15: 13 QPS, 0.05x concurrency, ID 0x3B4267C2E0B52599C84C77950B3BD9BF at byte 194235987
-# This item is included in the report because it matches --limit.
-# Scores: V/M = 0.01
-# Time range: 2022-06-08T11:51:02 to 2022-06-08T11:52:10
-# Attribute    pct   total     min     max     avg     95%  stddev  median
-# ============ === ======= ======= ======= ======= ======= ======= =======
-# Count          0     884
-# Exec time      0      3s   574us    59ms     4ms    10ms     5ms     2ms
-# Lock time      0     2ms       0    66us     1us     1us     3us     1us
-# Rows sent      5  86.33k     100     100     100     100       0     100
-# Rows examine   0 175.43k     200     214  203.21  202.40    4.73  192.76
-# Query size     0 321.14k     372     372     372     372       0     372
-# String:
-# Databases    isucon_listen80
-# Hosts        webapp-app-1.webapp_default
-# Users        isucon
-# Query_time distribution
-#   1us
-#  10us
-# 100us  ########
-#   1ms  ################################################################
-#  10ms  ####
-# 100ms
-#    1s
-#  10s+
-# Tables
-#    SHOW TABLE STATUS FROM `isucon_listen80` LIKE 'playlist'\G
-#    SHOW CREATE TABLE `isucon_listen80`.`playlist`\G
-#    SHOW TABLE STATUS FROM `isucon_listen80` LIKE 'user'\G
-#    SHOW CREATE TABLE `isucon_listen80`.`user`\G
-# EXPLAIN /*!50100 PARTITIONS*/
-SELECT p.*, u.account AS 'user.account', u.display_name AS 'user.display_name', u.password_hash AS 'user.password_hash', u.is_ban AS 'user.is_ban', u.created_at AS 'user.created_at', u.last_logined_at AS 'user.last_logined_at' FROM playlist as p INNER JOIN user as u on p.user_account = u.account where p.is_public = 1 and u.is_ban = 0 ORDER BY p.created_at DESC LIMIT 100\G
+SELECT * FROM song WHERE `ulid` = '01G2Y874ZWNN4WWB9T5ZA56JHS'\G
