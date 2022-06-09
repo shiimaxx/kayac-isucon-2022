@@ -69,6 +69,7 @@ func connectRedis() *redis.Pool {
 		Dial: func() (redis.Conn, error) {
 			return redis.DialURL(addr)
 		},
+		MaxIdle: 1000000,
 	}
 }
 
@@ -367,17 +368,14 @@ func isFavoritedBy(ctx context.Context, db connOrTx, userAccount string, playlis
 }
 
 func getFavoritesCountByPlaylistID(ctx context.Context, db connOrTx, playlistID int) (int, error) {
-	var count int
-	if err := db.GetContext(
-		ctx,
-		&count,
-		"SELECT COUNT(*) AS cnt FROM playlist_favorite where playlist_id = ?",
-		playlistID,
-	); err != nil {
-		return 0, fmt.Errorf(
-			"error Get count of playlist_favorite by playlist_id=%d: %w",
-			playlistID, err,
-		)
+	redisConn := pool.Get()
+	defer redisConn.Close()
+	count, err := redis.Int(redisConn.Do("ZSCORE", "fav", playlistID))
+	if err != nil {
+		if err == redis.ErrNil {
+			return 0, nil
+		}
+		return 0, fmt.Errorf("redis failed playlistID=%d: %w", playlistID, err)
 	}
 	return count, nil
 }
@@ -465,6 +463,7 @@ func getPopularPlaylistSummaries(ctx context.Context, db connOrTx, userAccount s
 	}
 
 	redisConn := pool.Get()
+	defer redisConn.Close()
 	ss, err := redis.Strings(redisConn.Do("ZREVRANGE", "fav", 0, 500, "WITHSCORES"))
 	if err != nil {
 		return nil, fmt.Errorf("redis failed: %w", err)
@@ -1687,7 +1686,10 @@ func apiPlaylistFavoriteHandler(c echo.Context) error {
 				c.Logger().Errorf("error insertPlaylistFavorite: %s", err)
 				return errorResponse(c, 500, "internal server error")
 			}
-			redisConn.Send("ZINCRBY", "fab", 1, playlist.ID)
+			if err := redisConn.Send("ZINCRBY", "fav", 1, playlist.ID); err != nil {
+				c.Logger().Errorf("error redis ZINCRBY fav 1 playlist.ID=%d: %w", err)
+				return errorResponse(c, 500, "internal server error")
+			}
 		}
 	} else {
 		// delete
@@ -1702,7 +1704,10 @@ func apiPlaylistFavoriteHandler(c echo.Context) error {
 			)
 			return errorResponse(c, 500, "internal server error")
 		}
-		redisConn.Send("ZINCRBY", "fab", -1, playlist.ID)
+		if err := redisConn.Send("ZINCRBY", "fav", -1, playlist.ID); err != nil {
+			c.Logger().Errorf("error redis ZINCRBY fav -1 playlist.ID=%d: %w", err)
+			return errorResponse(c, 500, "internal server error")
+		}
 	}
 
 	playlistDetail, err := getPlaylistDetailByPlaylistULID(ctx, conn, playlist.ULID, &userAccount)
@@ -1713,6 +1718,7 @@ func apiPlaylistFavoriteHandler(c echo.Context) error {
 	if playlistDetail == nil {
 		return errorResponse(c, 404, "failed to fetch playlist detail")
 	}
+	playlistDetail.FavoriteCount += 1
 
 	body := SinglePlaylistResponse{
 		BasicResponse: BasicResponse{
