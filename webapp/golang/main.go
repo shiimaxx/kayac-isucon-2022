@@ -407,7 +407,7 @@ func getRecentPlaylistSummaries(ctx context.Context, db connOrTx, userAccount st
 	if err := db.SelectContext(
 		ctx,
 		&results,
-		"SELECT p.*, u.account AS 'user.account', u.display_name AS 'user.display_name', u.password_hash AS 'user.password_hash', u.is_ban AS 'user.is_ban', u.created_at AS 'user.created_at', u.last_logined_at AS 'user.last_logined_at' FROM playlist as p INNER JOIN user as u on p.user_account = u.account where p.is_public = ? and u.is_ban = ? ORDER BY p.created_at DESC LIMIT 100",
+		"SELECT p.*, u.account AS 'user.account', u.display_name AS 'user.display_name', u.password_hash AS 'user.password_hash', u.is_ban AS 'user.is_ban', u.created_at AS 'user.created_at', u.last_logined_at AS 'user.last_logined_at' FROM playlist as p FORCE INDEX (idx_is_public_created_at_desc) INNER JOIN user as u on p.user_account = u.account where p.is_public = ? and u.is_ban = ? ORDER BY p.created_at DESC LIMIT 100",
 		true,
 		false,
 	); err != nil {
@@ -1879,6 +1879,7 @@ func initializeHandler(c echo.Context) error {
 		// {"ALTER TABLE song ADD INDEX ulid(ulid)"},
 		// {"ALTER TABLE playlist_favorite ADD INDEX favorite_user_account_created_at_desc(favorite_user_account ASC, created_at DESC)"},
 		// {"ALTER TABLE playlist ADD INDEX idx_is_public_created_at_desc(is_public ASC, created_at DESC)"},
+		// {"ALTER TABLE playlist ADD INDEX user_account_created_at_desc(user_account, created_at desc)"},
 	}
 	if err := initializeDB(ctx, initializeQueries); err != nil {
 		c.Logger().Errorf("error: initialize %s", err)
