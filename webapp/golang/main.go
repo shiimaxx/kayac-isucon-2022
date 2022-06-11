@@ -352,7 +352,14 @@ func getSongByULID(ctx context.Context, db connOrTx, songULID string) (*SongRow,
 	return &row, nil
 }
 
+var favoritedByCache sync.Map
+
 func isFavoritedBy(ctx context.Context, db connOrTx, userAccount string, playlistID int) (bool, error) {
+	_, found := favoritedByCache.Load(fmt.Sprintf("%s:%d", userAccount, playlistID))
+	if found {
+		return true, nil
+	}
+
 	var count int
 	if err := db.GetContext(
 		ctx,
@@ -850,6 +857,7 @@ func insertPlaylistFavorite(ctx context.Context, db connOrTx, playlistID int, fa
 			playlistID, favoriteUserAccount, createdAt, err,
 		)
 	}
+	favoritedByCache.Store(fmt.Sprintf("%s:%d", favoriteUserAccount, playlistID), struct{}{})
 	return nil
 }
 
@@ -1730,6 +1738,7 @@ func apiPlaylistFavoriteHandler(c echo.Context) error {
 			)
 			return errorResponse(c, 500, "internal server error")
 		}
+		favoritedByCache.Delete(fmt.Sprintf("%s:%d", userAccount, playlist.ID))
 		if err := redisConn.Send("ZINCRBY", "fav", -1, playlist.ID); err != nil {
 			c.Logger().Errorf("error redis ZINCRBY fav -1 playlist.ID=%d: %w", err)
 			return errorResponse(c, 500, "internal server error")
