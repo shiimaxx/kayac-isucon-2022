@@ -313,7 +313,14 @@ func authPageHandler(c echo.Context) error {
 
 // DBにアクセスして結果を引いてくる関数
 
+var playlistULIDCache sync.Map
+
 func getPlaylistByULID(ctx context.Context, db connOrTx, playlistULID string) (*PlaylistRow, error) {
+	val, found := playlistULIDCache.Load(playlistULID)
+	if found {
+		return val.(*PlaylistRow), nil
+	}
+
 	var row PlaylistRow
 	if err := db.GetContext(ctx, &row, "SELECT * FROM playlist WHERE `ulid` = ?", playlistULID); err != nil {
 		if err == sql.ErrNoRows {
@@ -321,6 +328,7 @@ func getPlaylistByULID(ctx context.Context, db connOrTx, playlistULID string) (*
 		}
 		return nil, fmt.Errorf("error Get playlist by ulid=%s: %w", playlistULID, err)
 	}
+	playlistULIDCache.Store(playlistULID, &row)
 	return &row, nil
 }
 
@@ -1533,6 +1541,7 @@ func apiPlaylistUpdateHandler(c echo.Context) error {
 
 	songCountCache.Delete(playlist.ID)
 	playlistDetailCache.Delete(playlist.ULID)
+	playlistULIDCache.Delete(playlist.ULID)
 
 	playlistDetails, err := getPlaylistDetailByPlaylistULID(ctx, conn, playlist.ULID, &userAccount)
 	if err != nil {
@@ -1633,6 +1642,7 @@ func apiPlaylistDeleteHandler(c echo.Context) error {
 	}
 
 	playlistDetailCache.Delete(playlist.ULID)
+	playlistULIDCache.Delete(playlist.ULID)
 
 	body := BasicResponse{
 		Result: true,
