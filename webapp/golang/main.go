@@ -678,6 +678,8 @@ func getFavoritedPlaylistSummariesByUserAccount(ctx context.Context, db connOrTx
 	return playlists, nil
 }
 
+var playlistDetailCache sync.Map
+
 func getPlaylistDetailByPlaylistULID(ctx context.Context, db connOrTx, playlistULID string, viewerUserAccount *string) (*PlaylistDetail, error) {
 	playlist, err := getPlaylistByULID(ctx, db, playlistULID)
 	if err != nil {
@@ -714,16 +716,22 @@ func getPlaylistDetailByPlaylistULID(ctx context.Context, db connOrTx, playlistU
 	}
 	var results []result
 
-	if err := db.SelectContext(
-		ctx,
-		&results,
-		"SELECT s.ulid `song.ulid`, s.title `song.title`, a.name `artist.name`, s.album `song.album`, s.track_number `song.track_number`, s.is_public `song.is_public` FROM playlist_song ps LEFT JOIN song s ON ps.song_id = s.id LEFT JOIN artist a ON s.artist_id = a.id WHERE playlist_id = ?",
-		playlist.ID,
-	); err != nil {
-		return nil, fmt.Errorf(
-			"error Select playlist_song by playlist_id=%d: %w",
-			playlist.ID, err,
-		)
+	val, found := playlistDetailCache.Load(playlistULID)
+	if found {
+		results = val.([]result)
+	} else {
+		if err := db.SelectContext(
+			ctx,
+			&results,
+			"SELECT s.ulid `song.ulid`, s.title `song.title`, a.name `artist.name`, s.album `song.album`, s.track_number `song.track_number`, s.is_public `song.is_public` FROM playlist_song ps LEFT JOIN song s ON ps.song_id = s.id LEFT JOIN artist a ON s.artist_id = a.id WHERE playlist_id = ?",
+			playlist.ID,
+		); err != nil {
+			return nil, fmt.Errorf(
+				"error Select playlist_song by playlist_id=%d: %w",
+				playlist.ID, err,
+			)
+		}
+		playlistDetailCache.Store(playlistULID, results)
 	}
 
 	songs := make([]Song, 0, len(results))
@@ -738,7 +746,7 @@ func getPlaylistDetailByPlaylistULID(ctx context.Context, db connOrTx, playlistU
 		})
 	}
 
-	return &PlaylistDetail{
+	ret := &PlaylistDetail{
 		Playlist: &Playlist{
 			ULID:            playlist.ULID,
 			Name:            playlist.Name,
@@ -752,7 +760,9 @@ func getPlaylistDetailByPlaylistULID(ctx context.Context, db connOrTx, playlistU
 			UpdatedAt:       playlist.UpdatedAt,
 		},
 		Songs: songs,
-	}, nil
+	}
+
+	return ret, nil
 }
 
 func getPlaylistFavoritesByPlaylistIDAndUserAccount(ctx context.Context, db connOrTx, playlistID int, favoriteUserAccount string) (*PlaylistFavoriteRow, error) {
@@ -1514,6 +1524,7 @@ func apiPlaylistUpdateHandler(c echo.Context) error {
 	}
 
 	songCountCache.Delete(playlist.ID)
+	playlistDetailCache.Delete(playlist.ULID)
 
 	playlistDetails, err := getPlaylistDetailByPlaylistULID(ctx, conn, playlist.ULID, &userAccount)
 	if err != nil {
@@ -1612,6 +1623,8 @@ func apiPlaylistDeleteHandler(c echo.Context) error {
 		c.Logger().Errorf("error Delete playlist_favorite by id=%s: %s", playlist.ID, err)
 		return errorResponse(c, 500, "internal server error")
 	}
+
+	playlistDetailCache.Delete(playlist.ULID)
 
 	body := BasicResponse{
 		Result: true,
@@ -1722,6 +1735,8 @@ func apiPlaylistFavoriteHandler(c echo.Context) error {
 			return errorResponse(c, 500, "internal server error")
 		}
 	}
+
+	playlistDetailCache.Delete(playlist.ULID)
 
 	playlistDetail, err := getPlaylistDetailByPlaylistULID(ctx, conn, playlist.ULID, &userAccount)
 	if err != nil {

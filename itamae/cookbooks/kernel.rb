@@ -17,6 +17,8 @@ net.ipv4.tcp_max_orphans = 65535
 net.ipv4.tcp_max_syn_backlog = 65535
 net.ipv4.tcp_synack_retries = 2
 net.ipv4.tcp_syn_retries = 2
+net.ipv4.tcp_max_tw_buckets = 2000000
+net.ipv4.ip_local_port_range = 10000 65000
 net.ipv4.tcp_tw_reuse = 1\n"
   end
   not_if 'grep -q "# Setting by itamae" /etc/sysctl.conf'
