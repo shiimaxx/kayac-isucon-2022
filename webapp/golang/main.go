@@ -11,6 +11,7 @@ import (
 	"os"
 	"regexp"
 	"strconv"
+	"sync"
 	"time"
 	"unicode/utf8"
 
@@ -380,7 +381,14 @@ func getFavoritesCountByPlaylistID(ctx context.Context, db connOrTx, playlistID 
 	return count, nil
 }
 
+var songCountCache sync.Map
+
 func getSongsCountByPlaylistID(ctx context.Context, db connOrTx, playlistID int) (int, error) {
+	val, found := songCountCache.Load(playlistID)
+	if found {
+		return val.(int), nil
+	}
+
 	var count int
 	if err := db.GetContext(
 		ctx,
@@ -393,6 +401,9 @@ func getSongsCountByPlaylistID(ctx context.Context, db connOrTx, playlistID int)
 			playlistID, err,
 		)
 	}
+
+	songCountCache.Store(playlistID, count)
+
 	return count, nil
 }
 
@@ -1501,6 +1512,8 @@ func apiPlaylistUpdateHandler(c echo.Context) error {
 		c.Logger().Errorf("error tx.Commit: %s", err)
 		return errorResponse(c, 500, "internal server error")
 	}
+
+	songCountCache.Delete(playlist.ID)
 
 	playlistDetails, err := getPlaylistDetailByPlaylistULID(ctx, conn, playlist.ULID, &userAccount)
 	if err != nil {
