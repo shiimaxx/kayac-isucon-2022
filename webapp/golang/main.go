@@ -414,33 +414,24 @@ func getSongsCountByPlaylistID(ctx context.Context, db connOrTx, playlistID int)
 	return count, nil
 }
 
-var recentPlaylistCache sync.Map
-
 func getRecentPlaylistSummaries(ctx context.Context, db connOrTx, userAccount string) ([]Playlist, error) {
 	type result struct {
 		PlaylistRow
 		UserRow `db:"user"`
 	}
 	var results []result
-
-	val, found := recentPlaylistCache.Load(0)
-	if found {
-		results = val.([]result)
-	} else {
-		if err := db.SelectContext(
-			ctx,
-			&results,
-			"SELECT p.*, u.account AS 'user.account', u.display_name AS 'user.display_name', u.password_hash AS 'user.password_hash', u.is_ban AS 'user.is_ban', u.created_at AS 'user.created_at', u.last_logined_at AS 'user.last_logined_at' FROM playlist as p FORCE INDEX (ulid) INNER JOIN user as u on p.user_account = u.account where p.is_public = ? and u.is_ban = ? ORDER BY p.ulid DESC LIMIT 100",
-			true,
-			false,
-		); err != nil {
-			return nil, fmt.Errorf(
-				"error Select playlist by is_public=true: %w",
-				err,
-			)
-		}
+	if err := db.SelectContext(
+		ctx,
+		&results,
+		"SELECT p.*, u.account AS 'user.account', u.display_name AS 'user.display_name', u.password_hash AS 'user.password_hash', u.is_ban AS 'user.is_ban', u.created_at AS 'user.created_at', u.last_logined_at AS 'user.last_logined_at' FROM playlist as p FORCE INDEX (ulid) INNER JOIN user as u on p.user_account = u.account where p.is_public = ? and u.is_ban = ? ORDER BY p.ulid DESC LIMIT 100",
+		true,
+		false,
+	); err != nil {
+		return nil, fmt.Errorf(
+			"error Select playlist by is_public=true: %w",
+			err,
+		)
 	}
-
 	if len(results) == 0 {
 		return nil, nil
 	}
@@ -1346,7 +1337,6 @@ func apiPlaylistAddHandler(c echo.Context) error {
 		)
 		return errorResponse(c, 500, "internal server error")
 	}
-	recentPlaylistCache.Delete(0)
 
 	body := AddPlaylistResponse{
 		BasicResponse: BasicResponse{
@@ -1553,8 +1543,6 @@ func apiPlaylistUpdateHandler(c echo.Context) error {
 		return errorResponse(c, 500, "error occured: getPlaylistDetailByPlaylistULID")
 	}
 
-	recentPlaylistCache.Delete(0)
-
 	body := SinglePlaylistResponse{
 		BasicResponse: BasicResponse{
 			Result: true,
@@ -1644,7 +1632,6 @@ func apiPlaylistDeleteHandler(c echo.Context) error {
 		return errorResponse(c, 500, "internal server error")
 	}
 
-	recentPlaylistCache.Delete(0)
 	playlistDetailCache.Delete(playlist.ULID)
 
 	body := BasicResponse{
@@ -1833,11 +1820,6 @@ func apiAdminUserBanHandler(c echo.Context) error {
 	if updatedUser == nil {
 		return errorResponse(c, 400, "user not found")
 	}
-
-	go func() {
-		time.Sleep(time.Millisecond * 2800)
-		recentPlaylistCache.Delete(0)
-	}()
 
 	body := AdminPlayerBanResponse{
 		BasicResponse: BasicResponse{
