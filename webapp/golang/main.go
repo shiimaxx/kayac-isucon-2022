@@ -1863,29 +1863,6 @@ func isAdminUser(account string) bool {
 	return account == "adminuser"
 }
 
-func initializeDB(ctx context.Context, queryArgs [][]interface{}) error {
-	conn, err := db.Connx(ctx)
-	if err != nil {
-		return err
-	}
-	defer conn.Close()
-
-	for _, qa := range queryArgs {
-		query := qa[0].(string)
-		args := qa[1:]
-		var err error
-		if len(args) > 0 {
-			_, err = conn.ExecContext(ctx, query, args...)
-		} else {
-			_, err = conn.ExecContext(ctx, query)
-		}
-		if err != nil {
-			return err
-		}
-	}
-	return nil
-}
-
 // 競技に必要なAPI
 // DBの初期化処理
 // auto generated dump data 20220424_0851 size prod
