@@ -389,9 +389,9 @@ func getSongByULID(ctx context.Context, db connOrTx, songULID string) (*SongRow,
 var favoritedByCache sync.Map
 
 func isFavoritedBy(ctx context.Context, db connOrTx, userAccount string, playlistID int) (bool, error) {
-	_, found := favoritedByCache.Load(fmt.Sprintf("%s:%d", userAccount, playlistID))
+	val, found := favoritedByCache.Load(fmt.Sprintf("%s:%d", userAccount, playlistID))
 	if found {
-		return true, nil
+		return val.(bool), nil
 	}
 
 	var count int
@@ -406,7 +406,10 @@ func isFavoritedBy(ctx context.Context, db connOrTx, userAccount string, playlis
 			userAccount, playlistID, err,
 		)
 	}
-	return count > 0, nil
+
+	isFavorited := count > 0
+	favoritedByCache.Store(fmt.Sprintf("%s:%d", userAccount, playlistID), isFavorited)
+	return isFavorited, nil
 }
 
 func getFavoritesCountByPlaylistID(ctx context.Context, db connOrTx, playlistID int) (int, error) {
@@ -891,7 +894,7 @@ func insertPlaylistFavorite(ctx context.Context, db connOrTx, playlistID int, fa
 			playlistID, favoriteUserAccount, createdAt, err,
 		)
 	}
-	favoritedByCache.Store(fmt.Sprintf("%s:%d", favoriteUserAccount, playlistID), struct{}{})
+	favoritedByCache.Store(fmt.Sprintf("%s:%d", favoriteUserAccount, playlistID), true)
 	return nil
 }
 
