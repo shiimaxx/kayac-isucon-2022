@@ -3,7 +3,10 @@ module github.com/kayac/inhouse-isucon-2022/webapp/golang
 go 1.18
 
 require (
+	github.com/felixge/fgprof v0.9.2
 	github.com/go-sql-driver/mysql v1.6.0
+	github.com/goccy/go-json v0.9.7
+	github.com/gomodule/redigo v1.8.8
 	github.com/gorilla/sessions v1.2.1
 	github.com/jmoiron/sqlx v1.3.5
 	github.com/labstack/echo/v4 v4.7.2
@@ -14,10 +17,7 @@ require (
 )
 
 require (
-	github.com/felixge/fgprof v0.9.2 // indirect
-	github.com/goccy/go-json v0.9.7 // indirect
 	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
-	github.com/gomodule/redigo v1.8.8 // indirect
 	github.com/google/pprof v0.0.0-20211214055906-6f57359322fd // indirect
 	github.com/gorilla/securecookie v1.1.1 // indirect
 	github.com/mattn/go-colorable v0.1.11 // indirect
