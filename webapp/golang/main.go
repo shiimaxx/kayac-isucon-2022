@@ -11,7 +11,6 @@ import (
 	"os"
 	"regexp"
 	"strconv"
-	"sync"
 	"time"
 	"unicode/utf8"
 
@@ -339,12 +338,12 @@ func authPageHandler(c echo.Context) error {
 
 // DBにアクセスして結果を引いてくる関数
 
-var playlistULIDCache sync.Map
+var playlistULIDCache PlaylistULIDCache
 
 func getPlaylistByULID(ctx context.Context, db connOrTx, playlistULID string) (*PlaylistRow, error) {
 	val, found := playlistULIDCache.Load(playlistULID)
 	if found {
-		return val.(*PlaylistRow), nil
+		return val, nil
 	}
 
 	var row PlaylistRow
@@ -386,12 +385,12 @@ func getSongByULID(ctx context.Context, db connOrTx, songULID string) (*SongRow,
 	return &row, nil
 }
 
-var favoritedByCache sync.Map
+var favoritedByCache FavoritedByCache
 
 func isFavoritedBy(ctx context.Context, db connOrTx, userAccount string, playlistID int) (bool, error) {
 	val, found := favoritedByCache.Load(fmt.Sprintf("%s:%d", userAccount, playlistID))
 	if found {
-		return val.(bool), nil
+		return val, nil
 	}
 
 	var count int
@@ -425,12 +424,12 @@ func getFavoritesCountByPlaylistID(ctx context.Context, db connOrTx, playlistID 
 	return count, nil
 }
 
-var songCountCache sync.Map
+var songCountCache SongCountCache
 
 func getSongsCountByPlaylistID(ctx context.Context, db connOrTx, playlistID int) (int, error) {
 	val, found := songCountCache.Load(playlistID)
 	if found {
-		return val.(int), nil
+		return val, nil
 	}
 
 	var count int
@@ -718,7 +717,7 @@ func getFavoritedPlaylistSummariesByUserAccount(ctx context.Context, db connOrTx
 	return playlists, nil
 }
 
-var playlistDetailCache sync.Map
+var playlistSongsCache PlaylistSongsCache
 
 func getPlaylistDetailByPlaylistULID(ctx context.Context, db connOrTx, playlistULID string, viewerUserAccount *string) (*PlaylistDetail, error) {
 	playlist, err := getPlaylistByULID(ctx, db, playlistULID)
@@ -750,15 +749,11 @@ func getPlaylistDetailByPlaylistULID(ctx context.Context, db connOrTx, playlistU
 		}
 	}
 
-	type result struct {
-		SongRow   `db:"song"`
-		ArtistRow `db:"artist"`
-	}
-	var results []result
+	var results PlaylistSongsCacheResults
 
-	val, found := playlistDetailCache.Load(playlistULID)
+	val, found := playlistSongsCache.Load(playlistULID)
 	if found {
-		results = val.([]result)
+		results = val
 	} else {
 		if err := db.SelectContext(
 			ctx,
@@ -771,7 +766,7 @@ func getPlaylistDetailByPlaylistULID(ctx context.Context, db connOrTx, playlistU
 				playlist.ID, err,
 			)
 		}
-		playlistDetailCache.Store(playlistULID, results)
+		playlistSongsCache.Store(playlistULID, results)
 	}
 
 	songs := make([]Song, 0, len(results))
@@ -1565,7 +1560,7 @@ func apiPlaylistUpdateHandler(c echo.Context) error {
 	}
 
 	songCountCache.Delete(playlist.ID)
-	playlistDetailCache.Delete(playlist.ULID)
+	playlistSongsCache.Delete(playlist.ULID)
 	playlistULIDCache.Delete(playlist.ULID)
 
 	playlistDetails, err := getPlaylistDetailByPlaylistULID(ctx, conn, playlist.ULID, &userAccount)
@@ -1666,7 +1661,7 @@ func apiPlaylistDeleteHandler(c echo.Context) error {
 		return errorResponse(c, 500, "internal server error")
 	}
 
-	playlistDetailCache.Delete(playlist.ULID)
+	playlistSongsCache.Delete(playlist.ULID)
 	playlistULIDCache.Delete(playlist.ULID)
 
 	body := BasicResponse{
@@ -1780,7 +1775,7 @@ func apiPlaylistFavoriteHandler(c echo.Context) error {
 		}
 	}
 
-	playlistDetailCache.Delete(playlist.ULID)
+	playlistSongsCache.Delete(playlist.ULID)
 
 	playlistDetail, err := getPlaylistDetailByPlaylistULID(ctx, conn, playlist.ULID, &userAccount)
 	if err != nil {
