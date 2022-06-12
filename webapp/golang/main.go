@@ -519,22 +519,18 @@ func getPopularPlaylistSummaries(ctx context.Context, db connOrTx, userAccount s
 
 	redisConn := pool.Get()
 	defer redisConn.Close()
-	ss, err := redis.Strings(redisConn.Do("ZREVRANGE", "fav", 0, 120, "WITHSCORES"))
+	s, err := redis.Strings(redisConn.Do("ZREVRANGE", "fav", 0, 120, "WITHSCORES"))
 	if err != nil {
 		return nil, fmt.Errorf("redis failed: %w", err)
 	}
 
-	var id int
-	for i, s := range ss {
-		if i%2 == 0 {
-			is, err := strconv.Atoi(s)
-			if err != nil {
-				return nil, err
-			}
-			id = is
-			continue
+	for i := 0; i < len(s); i += 2 {
+		id, err := strconv.Atoi(s[i])
+		if err != nil {
+			return nil, err
 		}
-		is2, err := strconv.Atoi(s)
+
+		fav, err := strconv.Atoi(s[i+1])
 		if err != nil {
 			return nil, err
 		}
@@ -542,7 +538,7 @@ func getPopularPlaylistSummaries(ctx context.Context, db connOrTx, userAccount s
 		popular = append(popular, struct {
 			PlaylistID    int `db:"playlist_id"`
 			FavoriteCount int `db:"favorite_count"`
-		}{id, is2})
+		}{id, fav})
 	}
 
 	if len(popular) == 0 {
