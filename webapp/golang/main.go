@@ -102,7 +102,7 @@ func main() {
 	e.Debug = false
 	e.Logger.SetLevel(log.ERROR)
 
-	e.Use(middleware.Logger())
+	// e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 	e.Use(cacheControllPrivate)
 
@@ -130,11 +130,7 @@ func main() {
 
 	e.POST("/initialize", initializeHandler)
 
-	// e.GET("/debug/pprof", echo.WrapHandler(http.HandlerFunc(pprof.Index)))
-	// e.GET("/debug/pprof/cmdline", echo.WrapHandler(http.HandlerFunc(pprof.Cmdline)))
-	// e.GET("/debug/pprof/profile", echo.WrapHandler(http.HandlerFunc(pprof.Profile)))
-	// e.GET("/debug/pprof/symbol", echo.WrapHandler(http.HandlerFunc(pprof.Symbol)))
-	// e.GET("/debug/pprof/trace", echo.WrapHandler(http.HandlerFunc(pprof.Trace)))
+	AddPprofHandlers(e, true)
 
 	e.JSONSerializer = &JSONSerializer{}
 	var err error
